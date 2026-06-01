@@ -496,6 +496,37 @@ path: "/page-path",
 
 ---
 
+## Theme System
+
+Five built-in themes: warm, clean, bold, earth, minimal.
+
+### Setting a theme per project
+
+In `config/site.js`:
+\`\`\`js
+theme: "warm" // "warm" | "clean" | "bold" | "earth" | "minimal"
+\`\`\`
+
+That is the only change needed. Colors, fonts, radii, and shadows
+all update automatically.
+
+### Adding a custom theme
+
+1. Create `/styles/themes/mytheme.scss` following the same structure
+2. Add the font definitions to `/config/fonts.js`
+3. Add the theme to the `themeFonts` map in `fonts.js`
+4. Import the theme file in `index.scss`
+5. Add it to the `themes` array in `ThemeSwitcher.js`
+6. Set `theme: "mytheme"` in `site.js`
+
+### ThemeSwitcher component
+
+For the showroom tool, drop `<ThemeSwitcher />` anywhere on the page.
+It switches themes live without a page reload by updating the
+`data-theme` attribute on the html element.
+
+---
+
 ## Accessibility
 
 Every component is built to WCAG 2.1 AA standards:

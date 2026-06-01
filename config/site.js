@@ -10,6 +10,8 @@ const site = {
 		"Binswar builds custom websites for therapists and mental health practitioners. We handle everything from design and copywriting to SEO and analytics so you can focus on your clients.",
 	url: "https://binswar.com",
 	locale: "en_US",
+	// Theme
+	theme: "warm", // "warm" | "clean" | "bold" | "earth" | "minimal"
 	// Analytics
 	analytics: {
 		ga4: "G-XXXXXXXXXX", // or null to disable

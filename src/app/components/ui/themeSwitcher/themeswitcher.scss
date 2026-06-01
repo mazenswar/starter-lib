@@ -1,0 +1,61 @@
+/* components/ui/ThemeSwitcher/themeswitcher.scss */
+@use "../../../styles/mixins" as *;
+
+.theme-switcher {
+	@include flex-column;
+	gap: var(--space-3);
+}
+
+.theme-switcher__label {
+	margin: 0;
+}
+
+.theme-switcher__options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+}
+
+.theme-switcher__option {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	padding: var(--space-2) var(--space-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	background: var(--color-surface);
+	cursor: pointer;
+	font: inherit;
+	font-size: var(--font-size-sm);
+	color: var(--color-text);
+	transition:
+		border-color var(--transition-fast),
+		background var(--transition-fast);
+	min-height: var(--min-tap-target);
+
+	&:hover {
+		border-color: var(--brand-1);
+	}
+
+	&.is-active {
+		border-color: var(--brand-1);
+		background: var(--brand-8);
+	}
+
+	&:focus-visible {
+		outline: var(--focus-ring);
+		outline-offset: var(--focus-offset);
+	}
+}
+
+.theme-switcher__swatch {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.theme-switcher__name {
+	font-weight: 500;
+}

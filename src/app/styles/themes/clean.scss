@@ -1,0 +1,31 @@
+/* styles/themes/clean.scss */
+[data-theme="clean"] {
+	--color-bg: #f8fafc;
+	--color-surface: #ffffff;
+	--color-text: #0f172a;
+	--color-muted: #64748b;
+	--color-border: #e2e8f0;
+	--color-background-alt: #f1f5f9;
+
+	--brand-1: #1e3a5f;
+	--brand-2: #dbeafe;
+	--brand-3: #0f2a4a;
+	--brand-4: #2563eb;
+	--brand-5: #3b82f6;
+	--brand-6: #eff6ff;
+	--brand-7: #f8fafc;
+	--brand-8: rgba(30, 58, 95, 0.05);
+
+	--accent-1: #2563eb;
+
+	--radius-sm: 4px;
+	--radius-md: 6px;
+	--radius-lg: 8px;
+	--radius-xl: 12px;
+
+	--shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.1);
+	--shadow-2: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+	--font-body: var(--font-clean-body);
+	--font-heading: var(--font-clean-heading);
+}

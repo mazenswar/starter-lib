@@ -1,0 +1,31 @@
+/* styles/themes/earth.scss */
+[data-theme="earth"] {
+	--color-bg: #f7f4ef;
+	--color-surface: #ffffff;
+	--color-text: #2c2416;
+	--color-muted: #6b5c45;
+	--color-border: #ddd5c8;
+	--color-background-alt: #f0ebe2;
+
+	--brand-1: #3d6b4f;
+	--brand-2: #d4e8da;
+	--brand-3: #2a4a36;
+	--brand-4: #5a8a4a;
+	--brand-5: #7aaa5a;
+	--brand-6: #e8f2e0;
+	--brand-7: #f7f4ef;
+	--brand-8: rgba(61, 107, 79, 0.06);
+
+	--accent-1: #3d6b4f;
+
+	--radius-sm: 6px;
+	--radius-md: 10px;
+	--radius-lg: 14px;
+	--radius-xl: 20px;
+
+	--shadow-1: 0 1px 3px rgba(44, 36, 22, 0.08);
+	--shadow-2: 0 4px 12px rgba(44, 36, 22, 0.12);
+
+	--font-body: var(--font-earth-body);
+	--font-heading: var(--font-earth-heading);
+}
