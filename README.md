@@ -465,6 +465,37 @@ const chipNavConfig = {
 
 ---
 
+## Metadata System
+
+### Central config (`/config/site.js`)
+
+Edit this file per project. Contains site name, URL, contact info,
+branding, social handles, business type, and OG image colors.
+
+### Metadata helper (`/config/metadata.js`)
+
+Two exports:
+
+- `generateMeta({ title, description, path, noIndex })` — call in each page.js
+- `generateJsonLd(overrides)` — call in root layout for structured data
+
+### Dynamic OG image (`/app/api/og/route.js`)
+
+Generates branded 1200x630 OG images per page using the logo from /public
+and colors from site.js. No manual image creation needed.
+
+### Per-page usage
+
+\`\`\`js
+export const metadata = generateMeta({
+title: "Page Title",
+description: "Page description for search engines.",
+path: "/page-path",
+});
+\`\`\`
+
+---
+
 ## Accessibility
 
 Every component is built to WCAG 2.1 AA standards:
