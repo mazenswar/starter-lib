@@ -43,14 +43,44 @@ const formConfig = {
 export default function ContactForm() {
 	const [status, setStatus] = useState("idle"); // idle | loading | success | error
 	const [errorMessage, setErrorMessage] = useState("");
+	const [errors, setErrors] = useState({});
 	const formRef = useRef(null);
+	const errorRef = useRef(null);
+	useEffect(() => {
+		if (status === "error" && errorRef.current) {
+			errorRef.current.focus();
+		}
+	}, [status]);
+	function validate(formData) {
+		const errs = {};
+		const name = formData.get("name")?.toString().trim();
+		const email = formData.get("email")?.toString().trim();
+		const message = formData.get("message")?.toString().trim();
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+		if (!name) errs.name = "Please enter your name.";
+		if (!email) errs.email = "Please enter your email address.";
+		else if (!emailRegex.test(email))
+			errs.email = "Please enter a valid email address.";
+		if (!message) errs.message = "Please enter a message.";
+
+		return errs;
+	}
 	async function handleSubmit(e) {
 		e.preventDefault();
 		setStatus("loading");
 		setErrorMessage("");
 
 		const formData = new FormData(formRef.current);
+		const errs = validate(formData);
+
+		if (Object.keys(errs).length > 0) {
+			setErrors(errs);
+			setStatus("idle");
+			return;
+		}
+
+		setErrors({});
 		const result = await submitContactForm(formData);
 
 		if (result.success) {
@@ -106,10 +136,20 @@ export default function ContactForm() {
 										name="name"
 										type="text"
 										placeholder={formConfig.fields.name.placeholder}
-										required
 										autoComplete="name"
 										disabled={status === "loading"}
+										aria-describedby="contact-name-error"
+										aria-invalid={errors.name ? "true" : "false"}
 									/>
+									{errors.name && (
+										<span
+											id="contact-name-error"
+											className="contact-form__field-error"
+											role="alert"
+										>
+											{errors.name}
+										</span>
+									)}
 								</div>
 
 								{/* Email */}
@@ -126,10 +166,20 @@ export default function ContactForm() {
 										name="email"
 										type="email"
 										placeholder={formConfig.fields.email.placeholder}
-										required
 										autoComplete="email"
 										disabled={status === "loading"}
+										aria-describedby="contact-email-error"
+										aria-invalid={errors.email ? "true" : "false"}
 									/>
+									{errors.email && (
+										<span
+											id="contact-email-error"
+											className="contact-form__field-error"
+											role="alert"
+										>
+											{errors.email}
+										</span>
+									)}
 								</div>
 
 								{/* Message */}
@@ -146,14 +196,28 @@ export default function ContactForm() {
 										name="message"
 										rows={5}
 										placeholder={formConfig.fields.message.placeholder}
-										required
 										disabled={status === "loading"}
+										aria-describedby="contact-message-error"
+										aria-invalid={errors.message ? "true" : "false"}
 									/>
+									{errors.message && (
+										<span
+											id="contact-message-error"
+											className="contact-form__field-error"
+											role="alert"
+										>
+											{errors.message}
+										</span>
+									)}
 								</div>
-
 								{/* Error message */}
 								{status === "error" && (
-									<div className="contact-form__error" role="alert">
+									<div
+										className="contact-form__error"
+										ref={errorRef}
+										tabIndex={-1}
+										role="alert"
+									>
 										{errorMessage}
 									</div>
 								)}

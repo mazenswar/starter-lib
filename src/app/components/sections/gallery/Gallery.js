@@ -1,6 +1,6 @@
 // components/sections/Gallery/Gallery.js
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import "./gallery.scss";
 
@@ -113,6 +113,37 @@ const galleryConfig = {
    ========================= */
 
 function Lightbox({ image, onClose }) {
+	const closeRef = useRef(null);
+	const triggerRef = useRef(null);
+
+	// Save the element that opened the lightbox
+	useEffect(() => {
+		triggerRef.current = document.activeElement;
+		// Move focus to close button when lightbox opens
+		requestAnimationFrame(() => closeRef.current?.focus());
+
+		return () => {
+			// Restore focus when lightbox closes
+			triggerRef.current?.focus();
+		};
+	}, []);
+
+	// Trap focus inside lightbox
+	const handleKeyDown = useCallback(
+		(e) => {
+			if (e.key === "Escape") {
+				onClose();
+				return;
+			}
+			if (e.key !== "Tab") return;
+
+			// Only one focusable element so just prevent leaving
+			e.preventDefault();
+			closeRef.current?.focus();
+		},
+		[onClose],
+	);
+
 	if (!image) return null;
 
 	return (
@@ -120,10 +151,13 @@ function Lightbox({ image, onClose }) {
 			className="gallery__lightbox"
 			open
 			onClick={(e) => e.target === e.currentTarget && onClose()}
+			onKeyDown={handleKeyDown}
 			aria-label={image.alt}
+			aria-modal="true"
 		>
 			<div className="gallery__lightbox-inner">
 				<button
+					ref={closeRef}
 					className="gallery__lightbox-close"
 					onClick={onClose}
 					aria-label="Close image"
@@ -164,17 +198,8 @@ export default function Gallery() {
 			? galleryConfig.images
 			: galleryConfig.images.filter((img) => img.category === activeCategory);
 
-	// Close lightbox on ESC
-	const handleKeyDown = (e) => {
-		if (e.key === "Escape") setLightboxImage(null);
-	};
-
 	return (
-		<section
-			className="block gallery"
-			aria-labelledby="gallery-heading"
-			onKeyDown={handleKeyDown}
-		>
+		<section className="block gallery" aria-labelledby="gallery-heading">
 			<div className="block__content container">
 				{/* Header */}
 				<div className="gallery__header">

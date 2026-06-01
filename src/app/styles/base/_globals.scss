@@ -125,3 +125,43 @@ button:disabled,
 	cursor: not-allowed;
 	pointer-events: none;
 }
+
+// Not Found Page
+
+.not-found__page {
+	.not-found__inner {
+		@include flex-column;
+		align-items: flex-start;
+		gap: var(--space-6);
+		max-width: 50ch;
+		padding-block: var(--space-16);
+
+		h1 {
+			margin: 0;
+		}
+
+		.lead {
+			margin: 0;
+		}
+	}
+}
+
+// Error Page
+
+.error__page {
+	.error__inner {
+		@include flex-column;
+		align-items: flex-start;
+		gap: var(--space-6);
+		max-width: 50ch;
+		padding-block: var(--space-16);
+
+		h1 {
+			margin: 0;
+		}
+
+		.lead {
+			margin: 0;
+		}
+	}
+}

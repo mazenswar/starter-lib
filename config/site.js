@@ -10,7 +10,11 @@ const site = {
 		"Binswar builds custom websites for therapists and mental health practitioners. We handle everything from design and copywriting to SEO and analytics so you can focus on your clients.",
 	url: "https://binswar.com",
 	locale: "en_US",
-
+	// Analytics
+	analytics: {
+		ga4: "G-XXXXXXXXXX", // or null to disable
+		gtm: null, // "GTM-XXXXXXX" or null
+	},
 	// Contact
 	email: "mazen@binswar.com",
 	phone: null, // e.g. "+17321234567"

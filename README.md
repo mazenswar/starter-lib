@@ -530,6 +530,55 @@ RESEND_API_KEY=           # Required for contact form
 
 ---
 
+## SEO Files
+
+### Sitemap (`/app/sitemap.js`)
+
+Generates `/sitemap.xml` automatically. Update the routes array
+to match the actual pages of each project.
+
+### Robots (`/app/robots.js`)
+
+Generates `/robots.txt` automatically. Points crawlers to the sitemap
+and disallows the /api/ directory.
+
+## Environment Variables
+
+Copy `.env.example` to `.env.local` and fill in your values.
+Never commit `.env.local` to version control.
+
+| Variable       | Required                  | Description             |
+| -------------- | ------------------------- | ----------------------- |
+| RESEND_API_KEY | Yes, if using ContactForm | API key from resend.com |
+
+## Analytics Setup
+
+1. Get the GA4 Measurement ID from the client's Google Analytics account
+2. Add it to `config/site.js` under `analytics.ga4`
+3. Deploy — scripts load automatically
+
+For Google Tag Manager use `analytics.gtm` instead.
+For Google Search Console no code is needed — verify ownership
+via DNS TXT record in the domain registrar.
+
+## Launch Checklist
+
+Before every site goes live:
+
+- [ ] Run axe DevTools, fix all critical and serious violations
+- [ ] Run Lighthouse accessibility audit, aim for 90+
+- [ ] Check color contrast with WebAIM for all token color combinations
+- [ ] Test full keyboard navigation manually
+- [ ] Verify OG images render correctly using opengraph.xyz
+- [ ] Confirm sitemap is accessible at /sitemap.xml
+- [ ] Test contact form end to end in production
+- [ ] Verify Google Analytics is receiving data
+- [ ] Verify Google Search Console is set up and sitemap submitted
+- [ ] Check all pages on mobile
+- [ ] Run Lighthouse performance audit, aim for 90+
+
+---
+
 ## Notes
 
 - All components are self-contained. Config lives at the top of the component file, not in a separate data file or layout.

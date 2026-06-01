@@ -159,3 +159,9 @@ form {
 	font-weight: 700;
 	@include flex-center;
 }
+
+.contact-form__field-error {
+	font-size: var(--font-size-xs);
+	color: var(--danger);
+	margin-top: var(--space-1);
+}
