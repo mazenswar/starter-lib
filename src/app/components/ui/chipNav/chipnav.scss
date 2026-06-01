@@ -1,0 +1,51 @@
+/* components/ui/ChipNav/chipnav.scss */
+@use "../../../styles/mixins" as *;
+
+.chip-nav {
+	position: sticky;
+	top: 64px; /* sits just below the nav */
+	z-index: var(--z-raised);
+	background: var(--color-bg);
+	border-bottom: 1px solid var(--color-border);
+	padding-block: var(--space-3);
+}
+
+/* List
+   -------------------------------------------- */
+.chip-nav__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-3);
+}
+
+/* Chips
+   -------------------------------------------- */
+.chip-nav__chip {
+	display: inline-flex;
+	align-items: center;
+	padding: var(--space-2) var(--space-4);
+	background: var(--brand-8);
+	border-radius: 999px;
+	text-decoration: none;
+	color: var(--color-text);
+	font-size: var(--font-size-sm);
+	font-weight: 500;
+	box-shadow: var(--shadow-1);
+	transition:
+		background var(--transition-fast),
+		transform var(--transition-fast);
+	min-height: var(--min-tap-target);
+
+	&:hover {
+		background: var(--brand-6);
+		transform: translateY(-1px);
+	}
+
+	&:focus-visible {
+		outline: var(--focus-ring);
+		outline-offset: var(--focus-offset);
+	}
+}

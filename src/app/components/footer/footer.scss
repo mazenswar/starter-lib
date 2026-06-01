@@ -1,0 +1,194 @@
+/* =========================
+   /components/footer/footer.scss
+   ========================= */
+
+@use "../../styles/mixins" as *;
+
+/* Root shell
+   -------------------------------------------- */
+.footer {
+	background: var(--brand-1);
+	color: var(--color-surface);
+
+	p,
+	li,
+	a {
+		font-size: var(--font-size-md);
+	}
+
+	.block {
+		padding: var(--space-12) 0;
+
+		.block__content {
+			padding-inline: var(--space-8);
+		}
+	}
+}
+
+/* Footer links
+   -------------------------------------------- */
+.footer__link {
+	color: var(--color-surface);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	transition: color var(--transition-base);
+
+	&:hover,
+	&:focus-visible {
+		color: var(--brand-2);
+		text-decoration-thickness: 2px;
+	}
+
+	&:focus-visible {
+		outline: var(--focus-ring);
+		outline-offset: var(--focus-offset);
+	}
+}
+
+/* Content band
+   -------------------------------------------- */
+.footer__content {
+	background: color-mix(in oklab, var(--brand-1) 92%, black 8%);
+
+	.block__content {
+		display: grid;
+		gap: var(--space-16);
+	}
+}
+
+/* Inclusion statement
+   -------------------------------------------- */
+.footer__inclusion {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--space-8);
+
+	@include respond(md) {
+		flex-direction: row;
+		gap: var(--space-12);
+	}
+}
+
+.footer__inclusion-media {
+	flex: 0 0 auto;
+}
+
+.footer__inclusion-img {
+	width: 100px;
+	height: 100px;
+	border-radius: 9999px;
+	object-fit: cover;
+}
+
+.footer__inclusion-text {
+	margin: 0;
+	opacity: 0.95;
+	flex: 1 1 auto;
+}
+
+/* SEO line
+   -------------------------------------------- */
+.footer__seo-line {
+	margin: 0;
+	opacity: 0.92;
+}
+
+/* Utilities
+   -------------------------------------------- */
+.footer__utilities {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-8);
+
+	@include respond(md) {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: flex-start;
+	}
+}
+
+.footer__col {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+}
+
+.footer__col-label {
+	margin: 0;
+	font-weight: 600;
+	opacity: 0.95;
+}
+
+/* Partners pill list
+   -------------------------------------------- */
+.footer__partners {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-3);
+
+	li {
+		border: 1px solid color-mix(in oklab, var(--color-surface) 20%, transparent);
+		border-radius: 999px;
+		padding: var(--space-1) var(--space-4);
+		background: color-mix(in oklab, var(--color-surface) 10%, transparent);
+		transition: background var(--transition-base);
+
+		&:hover {
+			background: var(--brand-5);
+		}
+
+		a {
+			text-decoration: none;
+
+			&:hover {
+				color: #fff;
+			}
+		}
+	}
+}
+
+/* Footer links column
+   -------------------------------------------- */
+.footer__links {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+}
+
+/* Bottom bar
+   -------------------------------------------- */
+.footer__bottombar {
+	background: var(--brand-1);
+	border-top: 1px solid
+		color-mix(in oklab, var(--color-surface) 18%, transparent);
+
+	.container {
+		padding-block: var(--space-4);
+	}
+}
+
+.footer__copy {
+	margin: 0;
+	text-align: center;
+	font-size: var(--font-size-xs);
+	opacity: 0.92;
+
+	a {
+		font-size: inherit;
+	}
+
+	@include respond(md) {
+		font-size: var(--font-size-md);
+
+		a {
+			font-size: inherit;
+		}
+	}
+}

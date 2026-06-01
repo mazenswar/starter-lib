@@ -1,0 +1,88 @@
+/* components/sections/Hero/hero.scss */
+@use "../../../styles/mixins" as *;
+
+.blockHero {
+	.block__content {
+		@include flex-column;
+		align-items: center;
+		justify-content: center;
+		gap: var(--space-8);
+
+		@include respond(md) {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+		}
+	}
+}
+
+.hero__copy {
+	@include flex-column;
+	align-items: center;
+	text-align: center;
+	gap: var(--space-4);
+	max-width: 58ch;
+
+	h1 {
+		margin: 0;
+	}
+
+	.lead {
+		max-width: 60ch;
+	}
+
+	.btnPrimary,
+	.btnSecondary,
+	.btnGhost {
+		margin-top: var(--space-4);
+	}
+
+	@include respond(md) {
+		align-items: flex-start;
+		text-align: left;
+	}
+}
+
+.hero__media {
+	width: 100%;
+	margin-top: var(--space-6);
+
+	img {
+		width: 100%;
+		height: auto;
+		border-radius: 100%;
+		display: block;
+	}
+
+	@include respond(md) {
+		width: 400px;
+		flex-shrink: 0;
+		margin-top: 0;
+	}
+}
+
+.hero__caption {
+	@include flex-column;
+	align-items: center;
+	justify-content: center;
+	padding-top: var(--space-6);
+	gap: var(--space-1);
+}
+
+.hero__caption-name {
+	font-family: var(--font-heading);
+	color: var(--brand-1);
+	font-size: var(--font-size-2xl);
+	font-weight: 700;
+	margin: 0;
+	text-align: center;
+}
+
+.hero__caption-title {
+	font-family: var(--font-heading);
+	color: var(--color-text);
+	font-size: var(--font-size-lg);
+	font-weight: 600;
+	margin: 0;
+	text-align: center;
+}
