@@ -1,5 +1,5 @@
 import Link from "next/link";
-import site from "@/config/site";
+import site from "../../config/site";
 
 export const metadata = {
 	title: `Page Not Found | ${site.name}`,
