@@ -1,4 +1,3 @@
-// components/nav/Nav.js
 "use client";
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
@@ -8,7 +7,6 @@ import "./nav.scss";
 
 /* =========================
   NAV CONFIGURATION
-  Edit this section per project
    ========================= */
 
 const logo = {
@@ -64,6 +62,18 @@ export default function Nav() {
 		return () => window.removeEventListener("hashchange", handler);
 	}, []);
 
+	// Close dropdown when clicking outside
+	useEffect(() => {
+		if (!openDropdown) return;
+		const handler = (e) => {
+			if (!e.target.closest(".nav__dropdownWrap")) {
+				setOpenDropdown(null);
+			}
+		};
+		document.addEventListener("mousedown", handler);
+		return () => document.removeEventListener("mousedown", handler);
+	}, [openDropdown]);
+
 	useEffect(() => {
 		if (!openMobile) return;
 		const onKey = (e) => {
@@ -76,6 +86,18 @@ export default function Nav() {
 		document.addEventListener("keydown", onKey);
 		return () => document.removeEventListener("keydown", onKey);
 	}, [openMobile]);
+
+	// Close desktop dropdown on Escape
+	useEffect(() => {
+		if (!openDropdown) return;
+		const onKey = (e) => {
+			if (e.key === "Escape") {
+				setOpenDropdown(null);
+			}
+		};
+		document.addEventListener("keydown", onKey);
+		return () => document.removeEventListener("keydown", onKey);
+	}, [openDropdown]);
 
 	const handleLinkClick = () => {
 		setOpenMobile(false);
@@ -93,13 +115,13 @@ export default function Nav() {
 				<Link
 					href={homeHref}
 					className="nav__logo"
-					aria-label={`${logo?.alt ?? "Home"} home`}
+					aria-label={`${logo?.alt ?? "Home"} — go to homepage`}
 					onClick={handleLinkClick}
 				>
 					{logo ? (
 						<Image
 							src={logo.src}
-							alt={logo.alt}
+							alt=""
 							width={logo.width ?? 140}
 							height={logo.height ?? 40}
 							priority
@@ -114,18 +136,22 @@ export default function Nav() {
 					className="nav__burger"
 					aria-expanded={openMobile}
 					aria-controls={menuId}
-					aria-label={openMobile ? "Close menu" : "Open menu"}
+					aria-label={
+						openMobile ? "Close navigation menu" : "Open navigation menu"
+					}
 					onClick={toggleBurger}
+					type="button"
 				>
-					<span />
-					<span />
-					<span />
+					<span aria-hidden="true" />
+					<span aria-hidden="true" />
+					<span aria-hidden="true" />
 				</button>
 
-				<nav id={menuId} className="nav__panel" aria-label="Primary">
+				<nav id={menuId} className="nav__panel" aria-label="Primary navigation">
 					<ul className="nav__list" role="list">
 						{links.map((item) => {
 							const isOpen = openDropdown === item.label;
+							const dropdownId = `dropdown-${item.label.toLowerCase().replace(/\s+/g, "-")}`;
 							return (
 								<li
 									key={item.label}
@@ -136,8 +162,9 @@ export default function Nav() {
 											<button
 												type="button"
 												className="nav__toplink"
-												aria-haspopup="menu"
+												aria-haspopup="true"
 												aria-expanded={isOpen}
+												aria-controls={dropdownId}
 												onClick={() =>
 													setOpenDropdown((cur) =>
 														cur === item.label ? null : item.label,
@@ -161,15 +188,14 @@ export default function Nav() {
 												</svg>
 											</button>
 											<div
+												id={dropdownId}
 												className={`nav__dropdown ${isOpen ? "is-open" : ""}`}
-												role="menu"
 											>
 												{item.items.map((sub) => (
 													<Link
 														key={sub.href}
 														href={sub.href}
 														className="nav__dropdownLink"
-														role="menuitem"
 														onClick={handleLinkClick}
 													>
 														{sub.label}

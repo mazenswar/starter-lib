@@ -138,8 +138,10 @@ export default function ContactForm() {
 										placeholder={formConfig.fields.name.placeholder}
 										autoComplete="name"
 										disabled={status === "loading"}
-										aria-describedby="contact-name-error"
 										aria-invalid={errors.name ? "true" : "false"}
+										{...(errors.name && {
+											"aria-describedby": "contact-name-error",
+										})}
 									/>
 									{errors.name && (
 										<span
@@ -168,9 +170,12 @@ export default function ContactForm() {
 										placeholder={formConfig.fields.email.placeholder}
 										autoComplete="email"
 										disabled={status === "loading"}
-										aria-describedby="contact-email-error"
 										aria-invalid={errors.email ? "true" : "false"}
+										{...(errors.email && {
+											"aria-describedby": "contact-email-error",
+										})}
 									/>
+
 									{errors.email && (
 										<span
 											id="contact-email-error"
@@ -197,9 +202,12 @@ export default function ContactForm() {
 										rows={5}
 										placeholder={formConfig.fields.message.placeholder}
 										disabled={status === "loading"}
-										aria-describedby="contact-message-error"
 										aria-invalid={errors.message ? "true" : "false"}
+										{...(errors.message && {
+											"aria-describedby": "contact-message-error",
+										})}
 									/>
+
 									{errors.message && (
 										<span
 											id="contact-message-error"

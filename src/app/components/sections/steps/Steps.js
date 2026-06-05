@@ -52,7 +52,7 @@ export default function Steps() {
 				</div>
 
 				{/* Steps list */}
-				<ol className="steps__list" role="list">
+				<ol className="steps__list">
 					{stepsConfig.steps.map((step, index) => (
 						<li key={step.id} className="steps__item">
 							<div className="steps__number" aria-hidden="true">

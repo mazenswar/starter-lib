@@ -42,6 +42,11 @@
 			border-color: var(--brand-1);
 			box-shadow: 0 0 0 3px var(--brand-5);
 		}
+		&:focus-visible {
+			outline: none;
+			border-color: var(--brand-1);
+			box-shadow: 0 0 0 3px var(--brand-5);
+		}
 
 		&::placeholder {
 			color: var(--color-muted);

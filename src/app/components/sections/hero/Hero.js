@@ -43,7 +43,7 @@ function useStyle() {
 /* ── Main component ─────────────────────────────────────────── */
 
 export default function Hero({ heroConfig }) {
-	const variant = useStyle(); // this is now the source of truth for which variant renders
+	const variant = useStyle(); // source of truth for which variant renders
 
 	if (variant === "split-contained")
 		return <HeroSplitContained config={heroConfig} />;
@@ -58,15 +58,15 @@ export default function Hero({ heroConfig }) {
 	return <HeroSplitContained config={heroConfig} />;
 }
 
-// All six variant components stay exactly as we wrote them before.
-// Nothing changes inside them — they just receive config as a prop
-// and render their specific layout. Paste them all here unchanged.
+/* ── Variant A — Split Contained (circular portrait) ────────── */
 
-/* ── Variant A — Split Contained (current, circular image) ──── */
 function HeroSplitContained({ config }) {
 	const img = config.images?.portrait;
 	return (
-		<section className="hero hero--split-contained block">
+		<section
+			className="hero hero--split-contained block"
+			aria-labelledby="hero-heading"
+		>
 			<div className="container hero__inner">
 				<div className="hero__copy">
 					<HeroCopy config={config} />
@@ -90,10 +90,14 @@ function HeroSplitContained({ config }) {
 }
 
 /* ── Variant B — Split Rectangular (contained, no rounding) ─── */
+
 function HeroSplitRectangular({ config }) {
 	const img = config.images?.portrait;
 	return (
-		<section className="hero hero--split-rectangular block">
+		<section
+			className="hero hero--split-rectangular block"
+			aria-labelledby="hero-heading"
+		>
 			<div className="container hero__inner">
 				<div className="hero__copy">
 					<HeroCopy config={config} />
@@ -117,10 +121,13 @@ function HeroSplitRectangular({ config }) {
 }
 
 /* ── Variant C — Full Bleed Half Split ──────────────────────── */
+// Background/bleed image is decorative — alt="" is correct here.
+// The section is labeled by the h1 heading via aria-labelledby.
+
 function HeroFullBleed({ config }) {
 	const img = config.images?.background || config.images?.portrait;
 	return (
-		<section className="hero hero--full-bleed">
+		<section className="hero hero--full-bleed" aria-labelledby="hero-heading">
 			<div className="hero__inner">
 				<div className="hero__bleed-copy">
 					<div className="hero__bleed-copy-inner">
@@ -131,7 +138,7 @@ function HeroFullBleed({ config }) {
 					<div className="hero__bleed-image">
 						<Image
 							src={img.src}
-							alt={img.alt}
+							alt=""
 							fill
 							priority
 							sizes="50vw"
@@ -145,10 +152,14 @@ function HeroFullBleed({ config }) {
 }
 
 /* ── Variant D — Asymmetric Rectangles ──────────────────────── */
+
 function HeroAsymmetric({ config }) {
 	const img = config.images?.portrait;
 	return (
-		<section className="hero hero--asymmetric block">
+		<section
+			className="hero hero--asymmetric block"
+			aria-labelledby="hero-heading"
+		>
 			<div className="container hero__inner">
 				{img && (
 					<div className="hero__media hero__media--landscape">
@@ -173,10 +184,14 @@ function HeroAsymmetric({ config }) {
 }
 
 /* ── Variant E — Centered ───────────────────────────────────── */
+
 function HeroCentered({ config }) {
 	const img = config.images?.landscape;
 	return (
-		<section className="hero hero--centered block">
+		<section
+			className="hero hero--centered block"
+			aria-labelledby="hero-heading"
+		>
 			<div className="container hero__inner">
 				<div className="hero__copy hero__copy--centered">
 					<HeroCopy config={config} centered />
@@ -199,17 +214,19 @@ function HeroCentered({ config }) {
 	);
 }
 
-/* ── Variant F — Classic Full Width ───────────────────────────────────── */
+/* ── Variant F — Background Hero ────────────────────────────── */
+// Full-width background image is decorative — alt="" is correct here.
+// The section is labeled by the h1 heading via aria-labelledby.
 
 function HeroBackground({ config }) {
 	const img = config.images?.landscape || config.images?.background;
 	return (
-		<section className="hero hero--background">
+		<section className="hero hero--background" aria-labelledby="hero-heading">
 			{img && (
 				<div className="hero__bg-image">
 					<Image
 						src={img.src}
-						alt={img.alt ?? ""}
+						alt=""
 						fill
 						priority
 						sizes="100vw"
@@ -228,13 +245,20 @@ function HeroBackground({ config }) {
 }
 
 /* ── Shared sub-components ──────────────────────────────────── */
+
+// HeroCopy renders the heading, eyebrow, subheading, and CTA buttons.
+// The h1 carries id="hero-heading" so every variant's section can
+// reference it via aria-labelledby="hero-heading".
+
 function HeroCopy({ config, centered = false }) {
 	return (
 		<>
 			{config.eyebrow && (
 				<p className="hero__eyebrow label">{config.eyebrow}</p>
 			)}
-			<h1 className="hero__heading">{config.heading}</h1>
+			<h1 id="hero-heading" className="hero__heading">
+				{config.heading}
+			</h1>
 			{config.subheading && (
 				<p className="hero__subheading lead">{config.subheading}</p>
 			)}
@@ -261,6 +285,8 @@ function HeroCopy({ config, centered = false }) {
 		</>
 	);
 }
+
+// HeroCaption renders the therapist name and title below portrait images.
 
 function HeroCaption({ caption }) {
 	return (

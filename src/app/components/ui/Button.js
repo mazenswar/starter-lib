@@ -40,6 +40,11 @@ export default function Button({
 
 	// GTM tracking handler
 	function handleTrackedClick(e) {
+		if (disabled) {
+			e.preventDefault();
+			return;
+		}
+
 		if (trackEvent) {
 			e.preventDefault();
 			try {
@@ -69,20 +74,28 @@ export default function Button({
 				className={classes}
 				onClick={onClick}
 				disabled={disabled}
-				aria-disabled={disabled}
 			>
 				{text}
 			</button>
 		);
 	}
 
-	// Render as link
+	// Render as link — disabled links block navigation and remove from tab order
+	if (disabled) {
+		return (
+			<span className={classes} aria-disabled="true" role="link">
+				{text}
+			</span>
+		);
+	}
+
+	// Render as active link
 	return (
 		<Link
 			href={href}
 			className={classes}
 			onClick={handleTrackedClick}
-			aria-disabled={disabled}
+			aria-label={external ? `${text} (opens in a new tab)` : undefined}
 			{...(external && {
 				target: "_blank",
 				rel: "noopener noreferrer",

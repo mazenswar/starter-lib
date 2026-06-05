@@ -124,7 +124,7 @@ export default function FAQ() {
 					{faqConfig.searchable && (
 						<div className="faq__search">
 							<label htmlFor="faq-search" className="sr-only">
-								Search FAQs
+								Search frequently asked questions
 							</label>
 							<input
 								id="faq-search"
@@ -132,7 +132,6 @@ export default function FAQ() {
 								placeholder="Search questions..."
 								value={query}
 								onChange={(e) => setQuery(e.target.value)}
-								aria-label="Search frequently asked questions"
 							/>
 						</div>
 					)}

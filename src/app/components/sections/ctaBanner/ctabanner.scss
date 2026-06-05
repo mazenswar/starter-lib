@@ -19,7 +19,8 @@
 			border-color: var(--color-surface);
 			color: var(--color-surface);
 
-			&:hover {
+			&:hover,
+			&:focus-visible {
 				background: var(--color-surface);
 				color: var(--brand-1);
 			}
@@ -28,7 +29,8 @@
 		.btnGhost {
 			color: var(--color-surface);
 
-			&:hover {
+			&:hover,
+			&:focus-visible {
 				background: color-mix(in oklab, var(--color-surface) 15%, transparent);
 			}
 		}
@@ -51,7 +53,8 @@
 			border-color: var(--color-surface);
 			color: var(--color-surface);
 
-			&:hover {
+			&:hover,
+			&:focus-visible {
 				background: var(--color-surface);
 				color: var(--brand-3);
 			}

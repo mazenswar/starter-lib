@@ -3,21 +3,16 @@ import Image from "next/image";
 import Button from "../../ui/Button";
 import "./twocolumn.scss";
 
-/* =========================
-   TWO COLUMN CONFIGURATION
-   Edit this section per project
-   ========================= */
-
 // const twoColumn = {
 // 	heading: "Our Approach",
 // 	paragraphs: [
-// 		"First paragraph of content. Describe your approach, philosophy, or whatever this section is about.",
-// 		"Second paragraph with more detail. Keep it concise and human.",
+// 		"First paragraph of content.",
+// 		"Second paragraph with more detail.",
 // 	],
 // 	list: [
-// 		"First key point about your approach or offering",
-// 		"Second key point that reinforces your value",
-// 		"Third key point that builds trust",
+// 		"First key point",
+// 		"Second key point",
+// 		"Third key point",
 // 	],
 // 	cta: {
 // 		text: "Learn more",
@@ -33,22 +28,21 @@ import "./twocolumn.scss";
 // 	imagePosition: "right", // "left" or "right"
 // };
 
-/* =========================
-   COMPONENT
-   ========================= */
-
 export default function TwoColumn({ twoColumnConfig }) {
 	const imageFirst = twoColumnConfig.imagePosition === "left";
 
 	return (
-		<section className="block two-col-section">
+		<section
+			className="block two-col-section"
+			aria-labelledby="two-col-heading"
+		>
 			<div className="block__content container">
 				<div
 					className={`two-col-section__layout ${imageFirst ? "image-first" : ""}`}
 				>
 					{/* Copy */}
 					<div className="two-col-section__copy">
-						<h2>{twoColumnConfig.heading}</h2>
+						<h2 id="two-col-heading">{twoColumnConfig.heading}</h2>
 
 						{twoColumnConfig.paragraphs?.map((para, i) => (
 							<p key={i}>{para}</p>

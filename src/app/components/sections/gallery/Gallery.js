@@ -1,20 +1,14 @@
-// components/sections/Gallery/Gallery.js
 "use client";
 import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import "./gallery.scss";
 
-/* =========================
-   GALLERY CONFIGURATION
-   Edit this section per project
-   ========================= */
-
 const galleryConfig = {
 	heading: "Our Work",
 	subheading: "A look at some of the projects we are proud of.",
-	layout: "grid", // "grid" or "before-after"
+	layout: "grid",
 	filterable: true,
-	columns: 3, // 2, 3, or 4
+	columns: 3,
 	categories: [
 		{ id: "all", label: "All" },
 		{ id: "lawn", label: "Lawn Care" },
@@ -71,7 +65,6 @@ const galleryConfig = {
 			height: 600,
 		},
 	],
-	// Before and after pairs (used when layout is "before-after")
 	beforeAfter: [
 		{
 			id: "ba1",
@@ -113,31 +106,28 @@ const galleryConfig = {
    ========================= */
 
 function Lightbox({ image, onClose }) {
+	const dialogRef = useRef(null);
 	const closeRef = useRef(null);
 	const triggerRef = useRef(null);
 
-	// Save the element that opened the lightbox
 	useEffect(() => {
 		triggerRef.current = document.activeElement;
-		// Move focus to close button when lightbox opens
+		dialogRef.current?.showModal();
 		requestAnimationFrame(() => closeRef.current?.focus());
 
 		return () => {
-			// Restore focus when lightbox closes
 			triggerRef.current?.focus();
 		};
 	}, []);
 
-	// Trap focus inside lightbox
 	const handleKeyDown = useCallback(
 		(e) => {
 			if (e.key === "Escape") {
+				e.preventDefault();
 				onClose();
 				return;
 			}
 			if (e.key !== "Tab") return;
-
-			// Only one focusable element so just prevent leaving
 			e.preventDefault();
 			closeRef.current?.focus();
 		},
@@ -148,8 +138,8 @@ function Lightbox({ image, onClose }) {
 
 	return (
 		<dialog
+			ref={dialogRef}
 			className="gallery__lightbox"
-			open
 			onClick={(e) => e.target === e.currentTarget && onClose()}
 			onKeyDown={handleKeyDown}
 			aria-label={image.alt}
@@ -158,6 +148,7 @@ function Lightbox({ image, onClose }) {
 			<div className="gallery__lightbox-inner">
 				<button
 					ref={closeRef}
+					type="button"
 					className="gallery__lightbox-close"
 					onClick={onClose}
 					aria-label="Close image"
@@ -201,7 +192,6 @@ export default function Gallery() {
 	return (
 		<section className="block gallery" aria-labelledby="gallery-heading">
 			<div className="block__content container">
-				{/* Header */}
 				<div className="gallery__header">
 					<h2 id="gallery-heading">{galleryConfig.heading}</h2>
 					{galleryConfig.subheading && (
@@ -209,18 +199,18 @@ export default function Gallery() {
 					)}
 				</div>
 
-				{/* Filter tabs */}
+				{/* Filter buttons */}
 				{galleryConfig.filterable && !isBeforeAfter && (
 					<div
 						className="gallery__filters"
-						role="tablist"
+						role="group"
 						aria-label="Filter gallery by category"
 					>
 						{galleryConfig.categories.map((cat) => (
 							<button
 								key={cat.id}
-								role="tab"
-								aria-selected={activeCategory === cat.id}
+								type="button"
+								aria-pressed={activeCategory === cat.id}
 								className={`gallery__filter ${activeCategory === cat.id ? "is-active" : ""}`}
 								onClick={() => setActiveCategory(cat.id)}
 							>
@@ -235,19 +225,18 @@ export default function Gallery() {
 					<div
 						className="gallery__grid"
 						style={{ "--gallery-cols": galleryConfig.columns }}
-						role="list"
 					>
 						{filteredImages.map((image) => (
 							<button
 								key={image.id}
+								type="button"
 								className="gallery__item"
-								role="listitem"
 								onClick={() => setLightboxImage(image)}
 								aria-label={`View larger: ${image.alt}`}
 							>
 								<Image
 									src={image.src}
-									alt={image.alt}
+									alt=""
 									width={image.width}
 									height={image.height}
 									sizes="(max-width: 768px) 90vw, 33vw"
@@ -271,7 +260,12 @@ export default function Gallery() {
 								)}
 								<div className="gallery__before-after-grid">
 									<figure className="gallery__before-after-item">
-										<div className="gallery__before-after-badge">Before</div>
+										<div
+											className="gallery__before-after-badge"
+											aria-hidden="true"
+										>
+											Before
+										</div>
 										<Image
 											src={pair.before.src}
 											alt={pair.before.alt}
@@ -280,9 +274,15 @@ export default function Gallery() {
 											sizes="(max-width: 768px) 90vw, 45vw"
 											style={{ width: "100%", height: "auto" }}
 										/>
+										<figcaption className="sr-only">
+											Before: {pair.before.alt}
+										</figcaption>
 									</figure>
 									<figure className="gallery__before-after-item">
-										<div className="gallery__before-after-badge is-after">
+										<div
+											className="gallery__before-after-badge is-after"
+											aria-hidden="true"
+										>
 											After
 										</div>
 										<Image
@@ -293,6 +293,9 @@ export default function Gallery() {
 											sizes="(max-width: 768px) 90vw, 45vw"
 											style={{ width: "100%", height: "auto" }}
 										/>
+										<figcaption className="sr-only">
+											After: {pair.after.alt}
+										</figcaption>
 									</figure>
 								</div>
 							</div>
@@ -301,7 +304,6 @@ export default function Gallery() {
 				)}
 			</div>
 
-			{/* Lightbox */}
 			{lightboxImage && (
 				<Lightbox
 					image={lightboxImage}

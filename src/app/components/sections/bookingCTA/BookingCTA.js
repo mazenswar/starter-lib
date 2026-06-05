@@ -53,7 +53,7 @@ export default function BookingCTA() {
 						<p className="booking-cta__sub">{bookingConfig.subheading}</p>
 
 						{bookingConfig.steps?.length > 0 && (
-							<ol className="booking-cta__steps" role="list">
+							<ol className="booking-cta__steps">
 								{bookingConfig.steps.map((step) => (
 									<li key={step.number} className="booking-cta__step">
 										<span

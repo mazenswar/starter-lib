@@ -39,10 +39,25 @@ export default function LogoBar({ logoBarConfig }) {
 }
 
 function LogoItem({ logo }) {
+	// No link — image carries the alt text directly
+	if (!logo.href) {
+		return (
+			<Image
+				src={logo.src}
+				alt={logo.alt}
+				width={logo.width || 120}
+				height={44}
+				className="logo-bar__img"
+				style={{ width: "auto", height: "44px" }}
+			/>
+		);
+	}
+
+	// Image inside a link — link carries the label, image is decorative
 	const image = (
 		<Image
 			src={logo.src}
-			alt={logo.alt}
+			alt=""
 			width={logo.width || 120}
 			height={44}
 			className="logo-bar__img"
@@ -50,9 +65,7 @@ function LogoItem({ logo }) {
 		/>
 	);
 
-	if (!logo.href) return image;
-
-	// External link — use bare a tag
+	// External link — bare a tag with new tab notice
 	if (logo.href.startsWith("http")) {
 		return (
 			<a
@@ -60,14 +73,14 @@ function LogoItem({ logo }) {
 				className="logo-bar__link"
 				target="_blank"
 				rel="noopener noreferrer"
-				aria-label={`${logo.alt} - opens in new tab`}
+				aria-label={`${logo.alt} (opens in a new tab)`}
 			>
 				{image}
 			</a>
 		);
 	}
 
-	// Internal link — use Next Link
+	// Internal link — Next Link
 	return (
 		<Link href={logo.href} className="logo-bar__link" aria-label={logo.alt}>
 			{image}
