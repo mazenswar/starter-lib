@@ -111,7 +111,10 @@
 	padding: 6px 12px;
 	opacity: 1;
 	transition: opacity var(--transition-fast);
-
+	&:focus-visible {
+		outline: var(--focus-ring);
+		outline-offset: var(--focus-offset);
+	}
 	&:hover {
 		opacity: 0.85;
 	}
@@ -144,8 +147,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 36px;
-	height: 36px;
+	width: 44px;
+	height: 44px;
 	border-radius: 50%;
 	border: 1px solid color-mix(in oklab, var(--brand-5) 25%, transparent);
 	color: var(--brand-5);
@@ -154,6 +157,10 @@
 		opacity var(--transition-fast),
 		background var(--transition-fast);
 
+	&:focus-visible {
+		outline: var(--focus-ring);
+		outline-offset: var(--focus-offset);
+	}
 	&:hover {
 		opacity: 1;
 		background: color-mix(in oklab, var(--brand-5) 12%, transparent);

@@ -7,7 +7,7 @@ import "./footer.scss";
    ========================= */
 
 const contact = {
-	phone: "(555) 123-4567", // e.g. "(555) 123-4567"
+	phone: "(555) 123-4567",
 	email: "hello@yourclinic.com",
 	address: "123 Main St, Suite 4, New York, NY 10001",
 	virtual: "Serving clients across New Jersey & New York",
@@ -20,11 +20,6 @@ const badges = [
 		src: "/badges/psychology-today.png",
 	},
 	{ label: "Zencare", href: "https://zencare.co", src: "/badges/zencare.png" },
-	// {
-	// 	label: "TherapyDen",
-	// 	href: "https://therapyden.com",
-	// 	src: "/badges/therapyden.png",
-	// },
 ];
 
 const social = [
@@ -59,7 +54,6 @@ const legalLinks = [
 ];
 
 const seoLine = null;
-// e.g. "Providing virtual therapy across New Jersey and New York."
 
 const copyright = {
 	name: "Your Practice Name",
@@ -84,6 +78,7 @@ function SocialIcon({ icon }) {
 				strokeLinecap="round"
 				strokeLinejoin="round"
 				aria-hidden="true"
+				focusable="false"
 			>
 				<rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
 				<circle cx="12" cy="12" r="4" />
@@ -102,6 +97,7 @@ function SocialIcon({ icon }) {
 				strokeLinecap="round"
 				strokeLinejoin="round"
 				aria-hidden="true"
+				focusable="false"
 			>
 				<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
 				<rect x="2" y="9" width="4" height="12" />
@@ -120,6 +116,7 @@ function SocialIcon({ icon }) {
 				strokeLinecap="round"
 				strokeLinejoin="round"
 				aria-hidden="true"
+				focusable="false"
 			>
 				<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
 			</svg>
@@ -139,7 +136,7 @@ export default function Footer() {
 	const hasSocial = social.length > 0;
 
 	return (
-		<footer className="footer" role="contentinfo">
+		<footer className="footer">
 			<div className="footer__main">
 				<div className="container footer__grid">
 					{/* Col 1 — Contact info */}
@@ -204,18 +201,21 @@ export default function Footer() {
 												className="footer__badge-link"
 												target="_blank"
 												rel="noopener noreferrer"
-												aria-label={badge.label}
+												aria-label={`${badge.label} (opens in a new tab)`}
 											>
 												{badge.src ? (
 													<img
 														src={badge.src}
-														alt={badge.label}
+														alt=""
 														className="footer__badge-img"
 														width={120}
 														height={40}
 													/>
 												) : (
-													<span className="footer__badge-text">
+													<span
+														className="footer__badge-text"
+														aria-hidden="true"
+													>
 														{badge.label}
 													</span>
 												)}
@@ -242,7 +242,7 @@ export default function Footer() {
 												className="footer__social-link"
 												target="_blank"
 												rel="noopener noreferrer"
-												aria-label={item.label}
+												aria-label={`${item.label} (opens in a new tab)`}
 											>
 												<SocialIcon icon={item.icon} />
 											</a>
@@ -254,7 +254,6 @@ export default function Footer() {
 					</div>
 				</div>
 
-				{/* SEO line */}
 				{seoLine && (
 					<div className="container">
 						<p className="footer__seo-line">{seoLine}</p>
@@ -273,6 +272,7 @@ export default function Footer() {
 								className="footer__link"
 								target="_blank"
 								rel="noopener noreferrer"
+								aria-label="Site by Binswar (opens in a new tab)"
 							>
 								{copyright.creditText}
 							</a>

@@ -1,6 +1,24 @@
-# Binswar Starter
+# Binswar Starter / Showroom (last updated 060526)
 
-A Next.js starter template built for Binswar client projects. Every component is data-driven with a configuration block at the top of the file. To customize a component for a new client, edit the config block only. The component itself never needs to change.
+A Next.js starter template and live showroom tool built for Binswar client projects.
+
+## Purpose
+
+This repo serves two purposes:
+
+**Showroom** — used during client presentations. The DesignPanel lets
+clients pick colors, typography, and site style in real time against
+their actual content. This is an internal tool, not public-facing.
+
+**Starter template** — duplicated for each new client project. At
+delivery, the DesignPanel and unused theme files are removed, leaving
+a clean production site.
+
+### Workflow
+
+- Phase 1 — Layout and copy. Drop in client content, placeholder images.
+- Phase 2 — Design. Use the showroom to pick palette, fonts, and style live with the client.
+- Phase 3 — Delivery. Lock in design choices, swap real images, remove DesignPanel, ship.
 
 ---
 
@@ -8,52 +26,125 @@ A Next.js starter template built for Binswar client projects. Every component is
 
 - **Framework:** Next.js (App Router)
 - **Styling:** Sass (SCSS), no CSS Modules
-- **Images:** next/image
+- **Images:** next/image — always, never bare img tag
 - **Email:** Resend (contact form)
 - **Hosting:** Vercel
-- **Accessibility:** WCAG 2.1 AA
+- **Accessibility:** WCAG 2.1 AA — non-negotiable, built in from the start
 
 ---
 
-## Project Structure
+---
 
+## Accessibility Standard
+
+**Accessibility is WCAG 2.1 AA. It is built in from the start of every
+component, not added as a cleanup pass. No component is considered
+complete until it meets this standard.**
+
+### Rules that apply to every component
+
+- Always use `next/image`, never a bare `img` tag
+- Use `Link` from `next/link` for all internal navigation links
+- Use bare `<a>` with `target="_blank"` and `rel="noopener noreferrer"`
+  for external links. Include `aria-label` indicating it opens in a new tab
+- All images have meaningful `alt` text. Decorative images use `alt=""`
+- All interactive elements have `:focus-visible` styles using `--focus-ring`
+- All buttons and links meet the 44px minimum tap target via `--min-tap-target`
+- Icon-only buttons must have `aria-label`
+- Heading levels are logical and sequential — never skip from h1 to h3
+- Disclosure elements use `aria-expanded`, `aria-haspopup`, `aria-controls`
+- Color contrast meets WCAG AA — 4.5:1 for normal text, 3:1 for large text
+- Semantic HTML throughout — nav, main, section, footer, article, aside
+- Skip navigation link present in root layout
+- `lang` attribute on html element
+- No positive tabindex values
+- Error messages are associated with their fields via `aria-describedby`
+- Loading and dynamic states are communicated via `aria-live` where needed
+
+---
+
+## Design System
+
+### Attribute system
+
+The html element carries five data attributes that drive the entire
+visual system. The DesignPanel writes these at runtime. They are also
+set as static defaults in layout.js.
+
+```html
+<html
+	data-theme="clean"
+	data-font="editorial"
+	data-style="split-contained"
+	data-shape="round"
+	data-spacing="airy"
+></html>
 ```
-/app
-  /actions
-    contact.js          # Server action for contact form
-  layout.js             # Root layout, imports Nav and Footer
-  page.js               # Home page
 
-/components
-  /ui
-    /Button             # Button.js
-    /ChipNav            # ChipNav.js + chipnav.scss
-  /nav                  # Nav.js + nav.scss
-  /footer               # Footer.js + footer.scss
-  /sections
-    /Hero               # Hero.js + hero.scss
-    /PageHero           # PageHero.js + pagehero.scss
-    /CardGrid           # CardGrid.js + cardgrid.scss
-    /TwoColumn          # TwoColumn.js + twocolumn.scss
-    /Steps              # Steps.js + steps.scss
-    /FAQ                # FAQ.js + faq.scss
-    /Testimonials       # Testimonials.js + testimonials.scss
-    /CTABanner          # CTABanner.js + ctabanner.scss
-    /Gallery            # Gallery.js + gallery.scss
-    /ContactForm        # ContactForm.js + contactform.scss
-    /BookingCTA         # BookingCTA.js + bookingcta.scss
+`data-shape` and `data-spacing` are never set directly by the user.
+They are always derived from `data-style` via the siteStyles config
+in `config/design.js`.
 
-/styles
-  _tokens.scss          # Design tokens (CSS custom properties)
-  _functions.scss       # Sass functions
-  _mixins.scss          # Sass mixins
-  index.scss            # Global stylesheet entry point
-  /base
-    _reset.scss         # Modern CSS reset
-    _typography.scss    # Type scale and utilities
-    _globals.scss       # App-wide defaults, buttons, links
-    _layout.scss        # Container, grid, layout utilities
+### Design config (`/config/design.js`)
+
+Single source of truth for all design options. Four exports:
+
+**palettes** — color palette definitions
+
+```js
+{ id, label, description, group, swatches: [color1, color2, color3] }
 ```
+
+**fontPairings** — font pairing definitions
+
+```js
+{ id, label, description, heading: "--font-variable", body: "--font-variable" }
+```
+
+**siteStyles** — style definitions that couple hero variant with shape and spacing
+
+```js
+{
+	(id, label, description, shape, spacing);
+}
+```
+
+Current styles and their couplings:
+
+| Style ID          | Label                   | Shape | Spacing  |
+| ----------------- | ----------------------- | ----- | -------- |
+| split-contained   | Soft & Personal         | round | airy     |
+| split-rectangular | Clean & Balanced        | soft  | balanced |
+| full-bleed        | Dramatic & Bold         | sharp | compact  |
+| asymmetric        | Structured & Modern     | sharp | balanced |
+| centered          | Editorial & Open        | soft  | airy     |
+| background-hero   | Immersive & Atmospheric | sharp | compact  |
+
+### Adding a new palette
+
+1. Add entry to `palettes` array in `config/design.js`
+2. Create `styles/themes/yourpalette.scss`
+3. Import it in `styles/index.scss`
+
+### Adding a new font pairing
+
+1. Add entry to `fontPairings` array in `config/design.js`
+2. Add `[data-font="your-id"]` block in `styles/design/fonts.scss`
+3. If using new fonts, add to `config/fonts.js` and apply in `layout.js`
+
+### Adding a new style
+
+1. Add entry to `siteStyles` array in `config/design.js`
+2. Add the variant component function in `Hero.js`
+3. Add the variant to the router in the main Hero component
+
+### Font system
+
+All theme fonts are loaded at build time in `layout.js`. Each font
+has a unique CSS variable name — e.g. `--font-warm-body`. The
+`data-font` attribute maps `--font-body` and `--font-heading` to the
+correct variables via `styles/design/fonts.scss`. Theme SCSS files do
+not set font variables — fonts are controlled exclusively by `data-font`.
 
 ---
 
@@ -61,36 +152,34 @@ A Next.js starter template built for Binswar client projects. Every component is
 
 ### Tokens (`_tokens.scss`)
 
-All visual decisions live in CSS custom properties. To theme a project, override these variables.
-
-**Client theme overrides — change these per project:**
+All visual decisions are CSS custom properties. To theme a project
+override these per-project variables:
 
 ```scss
 --color-bg
 --color-surface
 --color-text
---brand-1 through --brand-5
+--color-muted
+--color-border
+--color-background-alt
+--brand-1   // primary action — buttons, links
+--brand-2   // secondary accent — hover states
+--brand-3   // surface tint — card and section backgrounds
+--brand-4   // border and divider color
+--brand-5   // text on brand — usually white
 --font-body
 --font-heading
 ```
 
-**Full token list:**
-
-- Colors: `--color-bg`, `--color-surface`, `--color-text`, `--color-muted`, `--brand-1` through `--brand-5`, `--accent-1`, `--success`, `--warning`, `--danger`
-- Typography: `--font-body`, `--font-heading`, `--font-size-xs` through `--font-size-4xl`
-- Spacing: `--space-1` through `--space-32` (4pt base scale)
-- Layout: `--max-width`
-- Radii: `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-xl`
-- Shadows: `--shadow-1`, `--shadow-2`
-- Transitions: `--transition-fast`, `--transition-base`, `--transition-slow`
-- Z-index: `--z-below`, `--z-base`, `--z-raised`, `--z-dropdown`, `--z-nav`, `--z-modal`, `--z-toast`
-- Accessibility: `--focus-ring`, `--focus-offset`, `--min-tap-target`
+Full token list includes typography scale, spacing scale, radii,
+shadows, transitions, z-index scale, and accessibility tokens.
+See `_tokens.scss` for all values.
 
 ### Mixins (`_mixins.scss`)
 
 ```scss
 @include respond(md) // min-width breakpoint
-	@include sr-only // visually hidden
+	@include sr-only // visually hidden, screen reader accessible
 	@include focus-ring // accessible focus outline
 	@include tap-target // 44px minimum touch target
 	@include flex-center // centered flex
@@ -102,21 +191,13 @@ All visual decisions live in CSS custom properties. To theme a project, override
 	@include absolute-fill; // position absolute inset 0
 ```
 
-### Functions (`_functions.scss`)
-
-```scss
-clampv($min, $pref, $max)     // fluid clamp value
-rem($px)                      // px to rem converter
-sp($step)                     // spacing token shorthand
-```
-
 ### Layout classes (`_layout.scss`)
 
 ```scss
 .container                    // max-width centered wrapper
 .block                        // section with vertical padding
 .block__content               // content wrapper inside block
-.blockTint                    // white surface background
+.blockTint                    // light surface background
 .blockBrand                   // subtle brand tint background
 .blockDark                    // dark brand background
 .two-col                      // equal two column grid
@@ -163,7 +244,7 @@ Unified button component handling all variants, links, and optional GTM tracking
 	text="Get in touch"
 	href="/contact"
 	variant="primary" // "primary" | "secondary" | "ghost"
-	external={false} // opens in new tab
+	external={false} // true opens in new tab with aria-label
 	trackEvent={{ event: "cta_click" }} // optional GTM push
 	disabled={false}
 	type="button" // used when no href
@@ -174,16 +255,13 @@ Unified button component handling all variants, links, and optional GTM tracking
 
 ### Nav (`/components/nav/Nav.js`)
 
-Sticky header with mobile hamburger, desktop hover dropdowns, and full keyboard accessibility.
-
-**Config block at top of file:**
+Sticky header with mobile hamburger, desktop click dropdowns, and full
+keyboard accessibility. Config lives at the top of the file.
 
 ```js
 const logo = { src, alt, width, height };
 const links = [
 	{ label: "Services", href: "/services" },
-	{ label: "About", href: "/about" },
-	// Dropdown example:
 	{
 		label: "Work",
 		items: [
@@ -192,25 +270,28 @@ const links = [
 		],
 	},
 ];
-const cta = { text, href, variant, external, trackEvent };
+const cta = { text, href, variant };
 const homeHref = "/";
 ```
 
-**Accessibility:** ESC closes menu, focus returns to burger, full ARIA attributes, skip nav supported.
+Parent items with `items` array are triggers only — they do not
+navigate. Children are the links. ESC closes menu and returns focus
+to burger button.
 
 ---
 
 ### Footer (`/components/footer/Footer.js`)
 
-Two-band footer with optional inclusion statement, SEO line, partner links, and legal links.
-
-**Config block at top of file:**
+Three column footer with contact info, navigation, directory badges,
+and social media icons. Config lives at the top of the file.
 
 ```js
-const inclusion = { image: { src, alt, width, height }, text };
-const seoLine = { text, linkText, linkHref, suffix }; // or null
-const partners = { label, items: [{ label, href }] }; // or []
-const footerLinks = [{ label, href }];
+const contact = { phone, email, address, virtual };
+const badges = [{ label, href, src }];
+const social = [{ label, href, icon }]; // icon: "instagram" | "linkedin" | "facebook"
+const navLinks = [{ label, href }];
+const legalLinks = [{ label, href }];
+const seoLine = "Optional SEO sentence"; // or null
 const copyright = { name, creditText, creditHref };
 ```
 
@@ -218,27 +299,49 @@ const copyright = { name, creditText, creditHref };
 
 ### Hero (`/components/sections/Hero/Hero.js`)
 
-Full homepage hero with two column layout, copy left, image right, optional caption.
+Multi-variant homepage hero. The active variant is controlled by the
+DesignPanel via `data-style` on the html element — not by heroConfig.
+The heroConfig provides content and images only.
 
-**Config block at top of file:**
+**Variants:**
+
+- `split-contained` — circular portrait, copy left, warm and personal
+- `split-rectangular` — vertical rectangular portrait, copy left, balanced
+- `full-bleed` — full viewport, image fills right half, dramatic
+- `asymmetric` — landscape image left, tall copy right, geometric
+- `centered` — copy centered above wide image, editorial
+- `background-hero` — full width background image, text overlay, atmospheric
 
 ```js
-const hero = {
-	heading,
-	subheading,
-	cta: { text, href, variant, external, trackEvent },
-	image: { src, alt, width, height },
+const heroConfig = {
+	eyebrow: "Optional label", // or null
+	heading: "Main heading",
+	subheading: "Supporting text",
+	cta: { text, href, variant },
+	ctaSecondary: { text, href, variant }, // or null
+	images: {
+		portrait: { src, alt }, // split-contained, split-rectangular, asymmetric
+		background: { src, alt }, // full-bleed, background-hero
+		landscape: { src, alt }, // centered
+	},
 	caption: { name, title }, // or null
 };
 ```
+
+Do not add a `variant` field to heroConfig. The variant is controlled
+by the DesignPanel style selection via `data-style`.
+
+**Image size guidelines:**
+
+- Portrait — 800x1000px minimum, 4:5 ratio, vertical
+- Background — 1200x1600px minimum, vertical, strong subject center-top
+- Landscape — 1800x960px minimum, 16:9 or wider, horizontal
 
 ---
 
 ### PageHero (`/components/sections/PageHero/PageHero.js`)
 
-Lightweight interior page hero. Use on all non-home pages.
-
-**Config block at top of file:**
+Lightweight interior page hero for all non-home pages.
 
 ```js
 const pageHeroConfig = {
@@ -252,14 +355,31 @@ const pageHeroConfig = {
 
 ---
 
-### CardGrid (`/components/sections/CardGrid/CardGrid.js`)
+### LogoBar (`/components/sections/LogoBar/LogoBar.js`)
 
-Centered header, three column card grid, optional footer CTA. Used for services, specialties, features.
-
-**Config block at top of file:**
+Wrapping row of logos for insurance providers, directory badges,
+press mentions, or certifications.
 
 ```js
-const cardGrid = {
+const logoBarConfig = {
+	heading: "Accepting most major insurance", // or null
+	logos: [
+		{ src, alt, href: null, width: 120 },
+		// href: null for display-only logos
+		// external href uses bare a tag with aria-label
+		// internal href uses Next Link
+	],
+};
+```
+
+---
+
+### CardGrid (`/components/sections/CardGrid/CardGrid.js`)
+
+Three column card grid with optional header and footer CTA.
+
+```js
+const cardGridConfig = {
 	heading,
 	subheading,
 	cta: { text, href, variant }, // or null
@@ -271,12 +391,10 @@ const cardGrid = {
 
 ### TwoColumn (`/components/sections/TwoColumn/TwoColumn.js`)
 
-Two column section with copy left or right and image. Supports paragraphs, bullet list, and CTA.
-
-**Config block at top of file:**
+Two column section with copy and image. Image position is configurable.
 
 ```js
-const twoColumn = {
+const twoColumnConfig = {
 	heading,
 	paragraphs: ["First paragraph", "Second paragraph"],
 	list: ["Point one", "Point two"], // or null
@@ -290,9 +408,8 @@ const twoColumn = {
 
 ### Steps (`/components/sections/Steps/Steps.js`)
 
-Numbered step-by-step process section. Used for explaining intake process, how it works, etc.
-
-**Config block at top of file:**
+Numbered process section. Used for explaining how therapy works,
+onboarding steps, etc.
 
 ```js
 const stepsConfig = {
@@ -306,15 +423,14 @@ const stepsConfig = {
 
 ### FAQ (`/components/sections/FAQ/FAQ.js`)
 
-Grouped FAQ accordion with optional search and sticky TOC sidebar. Uses native HTML details/summary.
-
-**Config block at top of file:**
+Grouped accordion with optional search and sticky TOC sidebar.
+Uses native HTML details/summary for accessibility.
 
 ```js
 const faqConfig = {
 	heading,
 	subheading,
-	contact: { text, href }, // optional link in subheading
+	contact: { text, href }, // or null
 	searchable: true,
 	showToc: true,
 	groups: [
@@ -327,19 +443,14 @@ const faqConfig = {
 };
 ```
 
-**Notes:**
-
-- Answers in `a` field support HTML strings
-- Hash-based deep linking works out of the box
-- Tags are used for search matching
+Answers in `a` support HTML strings. Tags are used for search matching.
+Hash-based deep linking works out of the box.
 
 ---
 
 ### Testimonials (`/components/sections/Testimonials/Testimonials.js`)
 
 Client testimonials with star ratings. Two layout options.
-
-**Config block at top of file:**
 
 ```js
 const testimonialsConfig = {
@@ -350,18 +461,14 @@ const testimonialsConfig = {
 };
 ```
 
-**Layouts:**
-
-- `grid` — equal columns, all testimonials same size
-- `featured` — first testimonial large, rest in smaller two column grid
+`featured` — first testimonial large, rest in smaller grid.
+`grid` — all testimonials equal size.
 
 ---
 
 ### CTABanner (`/components/sections/CTABanner/CTABanner.js`)
 
 Full width call to action section. Three background variants.
-
-**Config block at top of file:**
 
 ```js
 const ctaBannerConfig = {
@@ -378,8 +485,6 @@ const ctaBannerConfig = {
 ### Gallery (`/components/sections/Gallery/Gallery.js`)
 
 Photo gallery with filter tabs and lightbox. Two layout options.
-
-**Config block at top of file:**
 
 ```js
 const galleryConfig = {
@@ -405,15 +510,13 @@ const galleryConfig = {
 
 ### ContactForm (`/components/sections/ContactForm/ContactForm.js`)
 
-Two column contact form with server action submission via Resend. Inline success and error states.
+Two column contact form with server action submission via Resend.
 
-**Setup required:**
+**Setup:**
 
 1. `npm install resend`
 2. Add `RESEND_API_KEY=your_key` to `.env.local`
-3. Update the `to` email address in `/app/actions/contact.js`
-
-**Config block at top of file:**
+3. Update `to` email in `/app/actions/contact.js`
 
 ```js
 const formConfig = {
@@ -430,29 +533,27 @@ const formConfig = {
 
 ### BookingCTA (`/components/sections/BookingCTA/BookingCTA.js`)
 
-Booking section for therapy practices. Replaces a contact form with a link to the practice's EHR booking portal. HIPAA safe.
-
-**Config block at top of file:**
+Booking section for therapy practices. Links to EHR portal instead
+of a contact form. HIPAA safe — no PHI collected on site.
 
 ```js
 const bookingConfig = {
 	heading,
 	subheading,
 	steps: [{ number, text }],
-	cta: { text, href, variant, external, trackEvent },
-	note: "Disclaimer text shown below the button",
+	cta: { text, href, variant, external: true },
+	note: "Disclaimer text below button",
 };
 ```
 
-**Note:** Update `cta.href` to the practice's SimplePractice, Calendly, or EHR booking link.
+Update `cta.href` to the SimplePractice, Calendly, or EHR booking link.
 
 ---
 
 ### ChipNav (`/components/ui/ChipNav/ChipNav.js`)
 
-Sticky horizontal pill navigation for long pages. Smooth scrolls to sections accounting for sticky header offset.
-
-**Config block at top of file:**
+Sticky horizontal pill navigation for long single pages. Smooth
+scrolls to sections accounting for sticky header offset.
 
 ```js
 const chipNavConfig = {
@@ -461,7 +562,28 @@ const chipNavConfig = {
 };
 ```
 
-**Usage:** Place immediately after PageHero. Section elements should have matching `id` attributes.
+Place immediately after PageHero. Section elements need matching `id` attributes.
+
+---
+
+### DesignPanel (`/components/ui/DesignPanel/DesignPanel.js`)
+
+Live design customizer for the showroom. Renders a floating trigger
+button and a panel with three sections.
+
+**Colors** — switches palette via `data-theme`
+**Typography** — switches font pairing via `data-font`
+**Style** — switches hero variant and automatically applies coupled
+shape and spacing via `data-style`, `data-shape`, `data-spacing`
+
+Add to `layout.js`:
+
+```jsx
+import DesignPanel from "@/components/ui/DesignPanel/DesignPanel";
+// Place inside body, above Nav or in a fixed position wrapper
+```
+
+Remove at delivery — see Delivering a Project below.
 
 ---
 
@@ -469,150 +591,145 @@ const chipNavConfig = {
 
 ### Central config (`/config/site.js`)
 
-Edit this file per project. Contains site name, URL, contact info,
-branding, social handles, business type, and OG image colors.
+Edit per project: site name, URL, contact info, branding, social,
+business type, analytics IDs, OG image colors.
 
 ### Metadata helper (`/config/metadata.js`)
 
-Two exports:
-
-- `generateMeta({ title, description, path, noIndex })` — call in each page.js
-- `generateJsonLd(overrides)` — call in root layout for structured data
+```js
+// In each page.js
+export const metadata = generateMeta({
+	title: "Page Title",
+	description: "Page description for search engines.",
+	path: "/page-path",
+});
+```
 
 ### Dynamic OG image (`/app/api/og/route.js`)
 
-Generates branded 1200x630 OG images per page using the logo from /public
-and colors from site.js. No manual image creation needed.
-
-### Per-page usage
-
-\`\`\`js
-export const metadata = generateMeta({
-title: "Page Title",
-description: "Page description for search engines.",
-path: "/page-path",
-});
-\`\`\`
+Generates 1200x630 branded OG images per page using logo from
+`/public` and colors from `site.js`. No manual image creation needed.
 
 ---
 
-## Theme System
+## Analytics
 
-Five built-in themes: warm, clean, bold, earth, minimal.
+1. Get GA4 Measurement ID from Google Analytics
+2. Add to `config/site.js` under `analytics.ga4`
+3. Deploy — scripts load automatically via `@next/third-parties`
 
-### Setting a theme per project
-
-In `config/site.js`:
-\`\`\`js
-theme: "warm" // "warm" | "clean" | "bold" | "earth" | "minimal"
-\`\`\`
-
-That is the only change needed. Colors, fonts, radii, and shadows
-all update automatically.
-
-### Adding a custom theme
-
-1. Create `/styles/themes/mytheme.scss` following the same structure
-2. Add the font definitions to `/config/fonts.js`
-3. Add the theme to the `themeFonts` map in `fonts.js`
-4. Import the theme file in `index.scss`
-5. Add it to the `themes` array in `ThemeSwitcher.js`
-6. Set `theme: "mytheme"` in `site.js`
-
-### ThemeSwitcher component
-
-For the showroom tool, drop `<ThemeSwitcher />` anywhere on the page.
-It switches themes live without a page reload by updating the
-`data-theme` attribute on the html element.
+For GTM use `analytics.gtm`. For Search Console verify via DNS TXT record.
 
 ---
 
-## Accessibility
+## Environment Variables
 
-Every component is built to WCAG 2.1 AA standards:
+Copy `.env.example` to `.env.local`. Never commit `.env.local`.
 
-- Skip navigation link in root layout (`<a href="#main-content" className="skip-nav">`)
-- All interactive elements have `:focus-visible` styles using `--focus-ring` token
-- All buttons and links meet the 44px minimum tap target via `--min-tap-target`
-- Images have descriptive alt text
-- ARIA labels and roles on all complex components
-- Native HTML semantics used throughout (details/summary for accordion, dialog for lightbox, nav for navigation)
-- Lang attribute on html element (`<html lang="en">`)
+| Variable       | Required             | Description             |
+| -------------- | -------------------- | ----------------------- |
+| RESEND_API_KEY | If using ContactForm | API key from resend.com |
 
 ---
 
 ## Starting a New Project
 
-1. Duplicate this repo and rename it for the client
-2. Update `_tokens.scss` with the client's color palette and fonts
-3. Update the config block at the top of each component you use
-4. Update Nav and Footer config with the client's links and content
-5. Add `RESEND_API_KEY` to `.env.local` if using the contact form
-6. Update the `to` email in `/app/actions/contact.js`
-7. Replace placeholder images in `/public`
+1. Duplicate this repo and rename for the client
+2. Update `config/site.js` — name, URL, contact, analytics
+3. Update config blocks in Nav and Footer
+4. Update heroConfig in `app/page.js` with client content and images
+5. Update or replace section configs on each page
+6. Add client images to `/public`
+7. Add `RESEND_API_KEY` to `.env.local` if using ContactForm
+8. Update `to` email in `/app/actions/contact.js`
+9. Update routes in `app/sitemap.js`
 
 ---
 
-## Environment Variables
+## Delivering a Project
 
+When design is locked and content is final:
+
+1. Remove `<DesignPanel />` from `layout.js`
+2. Delete `components/ui/DesignPanel/`
+3. Set the chosen attributes as static defaults on html element in `layout.js`:
+
+```html
+<html
+	data-theme="clean"
+	data-font="editorial"
+	data-style="split-contained"
+	data-shape="round"
+	data-spacing="airy"
+></html>
 ```
-RESEND_API_KEY=           # Required for contact form
-```
+
+4. Delete unused theme files from `styles/themes/`
+5. Delete `config/design.js` if no longer needed
+6. Run the full launch checklist
 
 ---
-
-## SEO Files
-
-### Sitemap (`/app/sitemap.js`)
-
-Generates `/sitemap.xml` automatically. Update the routes array
-to match the actual pages of each project.
-
-### Robots (`/app/robots.js`)
-
-Generates `/robots.txt` automatically. Points crawlers to the sitemap
-and disallows the /api/ directory.
-
-## Environment Variables
-
-Copy `.env.example` to `.env.local` and fill in your values.
-Never commit `.env.local` to version control.
-
-| Variable       | Required                  | Description             |
-| -------------- | ------------------------- | ----------------------- |
-| RESEND_API_KEY | Yes, if using ContactForm | API key from resend.com |
-
-## Analytics Setup
-
-1. Get the GA4 Measurement ID from the client's Google Analytics account
-2. Add it to `config/site.js` under `analytics.ga4`
-3. Deploy — scripts load automatically
-
-For Google Tag Manager use `analytics.gtm` instead.
-For Google Search Console no code is needed — verify ownership
-via DNS TXT record in the domain registrar.
 
 ## Launch Checklist
 
-Before every site goes live:
+### Accessibility
 
-- [ ] Run axe DevTools, fix all critical and serious violations
-- [ ] Run Lighthouse accessibility audit, aim for 90+
-- [ ] Check color contrast with WebAIM for all token color combinations
-- [ ] Test full keyboard navigation manually
-- [ ] Verify OG images render correctly using opengraph.xyz
+- [ ] Run axe DevTools — fix all critical and serious violations
+- [ ] Run Lighthouse accessibility audit — aim for 95+
+- [ ] Check color contrast with WebAIM for all color combinations
+- [ ] Test full keyboard navigation manually — tab through every interactive element
+- [ ] Test with screen reader (VoiceOver on Mac or NVDA on Windows)
+- [ ] Verify skip navigation link works
+- [ ] Check all form fields have associated labels
+- [ ] Verify focus is managed correctly in all modals and dropdowns
+
+### SEO and Metadata
+
+- [ ] Verify page titles and descriptions on all pages
+- [ ] Verify OG images render correctly at opengraph.xyz
 - [ ] Confirm sitemap is accessible at /sitemap.xml
-- [ ] Test contact form end to end in production
+- [ ] Submit sitemap in Google Search Console
 - [ ] Verify Google Analytics is receiving data
-- [ ] Verify Google Search Console is set up and sitemap submitted
-- [ ] Check all pages on mobile
-- [ ] Run Lighthouse performance audit, aim for 90+
+- [ ] Check canonical URLs are correct
+
+### Performance
+
+- [ ] Run Lighthouse performance audit — aim for 90+
+- [ ] Verify all images use next/image with correct sizes prop
+- [ ] Check no layout shift on load (CLS score)
+
+### Functional
+
+- [ ] Test contact form end to end in production
+- [ ] Test all external links open in new tab
+- [ ] Test booking CTA link goes to correct EHR portal
+- [ ] Check all pages on mobile — iOS Safari and Android Chrome
+- [ ] Verify nav mobile menu opens and closes correctly
+- [ ] Test all dropdown menus keyboard accessible
+
+### Before Going Live
+
+- [ ] Remove DesignPanel from layout.js
+- [ ] Remove any placeholder or test content
+- [ ] Verify domain and DNS are configured correctly
+- [ ] Confirm SSL certificate is active
+- [ ] Set environment variables in Vercel dashboard
 
 ---
 
-## Notes
+## Notes and Conventions
 
-- All components are self-contained. Config lives at the top of the component file, not in a separate data file or layout.
-- Page-level styles use double underscore scoping: `.home__page`, `.about__page`, etc.
-- Avoid editing component JSX or SCSS unless building a new variant. All customization should happen through the config block and tokens.
-- The `blockTint`, `blockBrand`, and `blockDark` classes on section elements control background color without affecting the content width.
+- All components are either self-contained (config at top of file) or
+  prop-driven (config passed from page). Self-contained: Nav, Footer,
+  DesignPanel. Prop-driven: all section components.
+- Page-level styles use double underscore scoping: `.home__page`, `.about__page`
+- Never edit component JSX or SCSS for content changes. All content
+  customization goes in the config block or props.
+- `next/image` always. Never bare img tag.
+- `Link` from next/link for internal links. Bare `a` for external.
+- Accessibility is verified before any component is considered complete.
+- The DesignPanel is a showroom tool only. It is removed before delivery.
+- hero variant is controlled by `data-style` via DesignPanel, never
+  by heroConfig.variant.
+- `data-shape` and `data-spacing` are always derived from `data-style`.
+  Never set them independently.
