@@ -1,6 +1,6 @@
 // components/sections/ContactForm/ContactForm.js
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { submitContactForm } from "@/app/actions/contact";
 import "./contactform.scss";
 

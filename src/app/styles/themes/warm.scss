@@ -1,31 +1,20 @@
 /* styles/themes/warm.scss */
 [data-theme="warm"] {
-	--color-bg: #fff7f3;
+	--color-bg: #fdf6ef;
 	--color-surface: #ffffff;
-	--color-text: #3d2c2c;
-	--color-muted: #7a6060;
-	--color-border: #e8d5d0;
-	--color-background-alt: #fdf0eb;
+	--color-text: #2d1f14;
+	--color-muted: #7a5c44;
+	--color-border: #d4b896;
+	--color-background-alt: #f5e6d3;
 
-	--brand-1: #7f5a83;
-	--brand-2: #f9d8cd;
-	--brand-3: #4c2f6f;
-	--brand-4: #52489f;
-	--brand-5: #c266a7;
-	--brand-6: #e7c8e7;
-	--brand-7: #fcf3e8;
-	--brand-8: rgba(127, 90, 131, 0.05);
+	--brand-1: #c1603a;
+	--brand-2: #a84e2f;
+	--brand-3: #f5e6d3;
+	--brand-4: #d4b896;
+	--brand-5: #ffffff;
 
-	--accent-1: #174ea6;
-
-	--radius-sm: 8px;
-	--radius-md: 12px;
-	--radius-lg: 16px;
-	--radius-xl: 24px;
+	--accent-1: #8b3a1e;
 
 	--shadow-1: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
 	--shadow-2: 0 4px 12px rgba(0, 0, 0, 0.12);
-
-	--font-body: var(--font-warm-body);
-	--font-heading: var(--font-warm-heading);
 }

@@ -4,110 +4,35 @@
 
 @use "../../styles/mixins" as *;
 
-/* Root shell
-   -------------------------------------------- */
 .footer {
 	background: var(--brand-1);
-	color: var(--color-surface);
+	color: var(--brand-5);
 
 	p,
 	li,
 	a {
 		font-size: var(--font-size-md);
 	}
-
-	.block {
-		padding: var(--space-12) 0;
-
-		.block__content {
-			padding-inline: var(--space-8);
-		}
-	}
 }
 
-/* Footer links
-   -------------------------------------------- */
-.footer__link {
-	color: var(--color-surface);
-	text-decoration: underline;
-	text-underline-offset: 2px;
-	transition: color var(--transition-base);
-
-	&:hover,
-	&:focus-visible {
-		color: var(--brand-2);
-		text-decoration-thickness: 2px;
-	}
-
-	&:focus-visible {
-		outline: var(--focus-ring);
-		outline-offset: var(--focus-offset);
-	}
-}
-
-/* Content band
-   -------------------------------------------- */
-.footer__content {
+/* Main content area */
+.footer__main {
 	background: color-mix(in oklab, var(--brand-1) 92%, black 8%);
-
-	.block__content {
-		display: grid;
-		gap: var(--space-16);
-	}
+	padding: var(--space-12) 0;
 }
 
-/* Inclusion statement
-   -------------------------------------------- */
-.footer__inclusion {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: var(--space-8);
+.footer__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-10);
 
 	@include respond(md) {
-		flex-direction: row;
+		grid-template-columns: repeat(3, 1fr);
 		gap: var(--space-12);
 	}
 }
 
-.footer__inclusion-media {
-	flex: 0 0 auto;
-}
-
-.footer__inclusion-img {
-	width: 100px;
-	height: 100px;
-	border-radius: 9999px;
-	object-fit: cover;
-}
-
-.footer__inclusion-text {
-	margin: 0;
-	opacity: 0.95;
-	flex: 1 1 auto;
-}
-
-/* SEO line
-   -------------------------------------------- */
-.footer__seo-line {
-	margin: 0;
-	opacity: 0.92;
-}
-
-/* Utilities
-   -------------------------------------------- */
-.footer__utilities {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-8);
-
-	@include respond(md) {
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: flex-start;
-	}
-}
-
+/* Column */
 .footer__col {
 	display: flex;
 	flex-direction: column;
@@ -116,44 +41,35 @@
 
 .footer__col-label {
 	margin: 0;
-	font-weight: 600;
-	opacity: 0.95;
+	font-size: var(--font-size-xs);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	opacity: 0.6;
 }
 
-/* Partners pill list
-   -------------------------------------------- */
-.footer__partners {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--space-3);
+/* Links */
+.footer__link {
+	color: var(--brand-5);
+	text-decoration: none;
+	opacity: 0.85;
+	transition: opacity var(--transition-fast);
 
-	li {
-		border: 1px solid color-mix(in oklab, var(--color-surface) 20%, transparent);
-		border-radius: 999px;
-		padding: var(--space-1) var(--space-4);
-		background: color-mix(in oklab, var(--color-surface) 10%, transparent);
-		transition: background var(--transition-base);
+	&:hover,
+	&:focus-visible {
+		opacity: 1;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
 
-		&:hover {
-			background: var(--brand-5);
-		}
-
-		a {
-			text-decoration: none;
-
-			&:hover {
-				color: #fff;
-			}
-		}
+	&:focus-visible {
+		outline: var(--focus-ring);
+		outline-offset: var(--focus-offset);
 	}
 }
 
-/* Footer links column
-   -------------------------------------------- */
-.footer__links {
+/* Contact list */
+.footer__contact-list {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -162,33 +78,136 @@
 	gap: var(--space-2);
 }
 
-/* Bottom bar
-   -------------------------------------------- */
+.footer__address,
+.footer__virtual {
+	opacity: 0.75;
+	line-height: 1.5;
+}
+
+/* Nav list */
+.footer__nav-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+}
+
+/* Badges */
+.footer__badges {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+}
+
+.footer__badge-link {
+	display: inline-flex;
+	background: rgba(255, 255, 255, 0.92);
+	border-radius: 8px;
+	padding: 6px 12px;
+	opacity: 1;
+	transition: opacity var(--transition-fast);
+
+	&:hover {
+		opacity: 0.85;
+	}
+}
+
+.footer__badge-img {
+	height: 36px;
+	width: auto;
+	object-fit: contain;
+}
+
+.footer__badge-text {
+	color: var(--brand-5);
+	font-size: var(--font-size-sm);
+	font-weight: 500;
+	opacity: 0.85;
+}
+
+/* Social */
+.footer__social {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: row;
+	gap: var(--space-3);
+}
+
+.footer__social-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	border: 1px solid color-mix(in oklab, var(--brand-5) 25%, transparent);
+	color: var(--brand-5);
+	opacity: 0.8;
+	transition:
+		opacity var(--transition-fast),
+		background var(--transition-fast);
+
+	&:hover {
+		opacity: 1;
+		background: color-mix(in oklab, var(--brand-5) 12%, transparent);
+	}
+}
+
+/* SEO line */
+.footer__seo-line {
+	margin: var(--space-8) 0 0;
+	opacity: 0.7;
+	font-size: var(--font-size-sm);
+}
+
+/* Bottom bar */
 .footer__bottombar {
 	background: var(--brand-1);
-	border-top: 1px solid
-		color-mix(in oklab, var(--color-surface) 18%, transparent);
+	border-top: 1px solid color-mix(in oklab, var(--brand-5) 15%, transparent);
+}
 
-	.container {
-		padding-block: var(--space-4);
+.footer__bottombar-inner {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+	padding-block: var(--space-4);
+	align-items: center;
+	text-align: center;
+
+	@include respond(md) {
+		flex-direction: row;
+		justify-content: space-between;
+		text-align: left;
 	}
 }
 
 .footer__copy {
 	margin: 0;
-	text-align: center;
 	font-size: var(--font-size-xs);
-	opacity: 0.92;
+	opacity: 0.75;
+}
 
-	a {
-		font-size: inherit;
-	}
+.footer__legal {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-4);
+	justify-content: center;
 
 	@include respond(md) {
-		font-size: var(--font-size-md);
+		justify-content: flex-end;
+	}
 
-		a {
-			font-size: inherit;
-		}
+	li a {
+		font-size: var(--font-size-xs);
 	}
 }

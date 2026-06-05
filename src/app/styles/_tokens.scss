@@ -9,7 +9,7 @@
   --color-bg
   --color-surface
   --color-text
-  --brand-1 through --brand-8
+  --brand-1 through --brand-5
   --font-body
   --font-heading
    ========================= */
@@ -27,15 +27,12 @@
 	--brand-3: #4c2f6f;
 	--brand-4: #52489f;
 	--brand-5: #c266a7;
-	--brand-6: #e7c8e7;
-	--brand-7: #fcf3e8;
-	--brand-8: #7f5a830d;
 	--accent-1: #174ea6;
 	--success: #0f9d58;
 	--warning: #fbbc05;
 	--danger: #d93025;
 
-	--gradient: linear-gradient(0deg, var(--brand-6) 0%, var(--brand-7) 100%);
+	--gradient: linear-gradient(0deg, var(--brand-4) 0%, var(--brand-5) 100%);
 
 	/* Typography */
 	--font-sans:

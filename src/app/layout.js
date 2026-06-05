@@ -18,7 +18,7 @@ import site from "../../config/site";
 import Nav from "./components/nav/Nav";
 import Footer from "./components/footer/Footer";
 import "./styles/index.scss";
-import ThemeSwitcher from "./components/ui/themeSwitcher/ThemeSwitcher";
+import DesignPanel from "./components/ui/designPanel/DesignPanel";
 
 // Root metadata — applies to all pages unless overridden
 export const metadata = generateMeta({
@@ -42,7 +42,15 @@ const fontClasses = [
 
 export default function RootLayout({ children }) {
 	return (
-		<html lang="en" data-theme={site.theme} className={fontClasses}>
+		<html
+			lang="en"
+			data-theme="clean"
+			data-font="editorial"
+			data-style="split-contained"
+			data-shape="round"
+			data-spacing="airy"
+			className={fontClasses}
+		>
 			<body>
 				{/* JSON-LD structured data */}
 				<script
@@ -54,8 +62,7 @@ export default function RootLayout({ children }) {
 				<a href="#main-content" className="skip-nav">
 					Skip to main content
 				</a>
-
-				<ThemeSwitcher />
+				<DesignPanel />
 				<Nav />
 
 				{children}

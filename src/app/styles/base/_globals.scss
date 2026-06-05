@@ -16,7 +16,7 @@ body {
 /* Links
    -------------------------------------------- */
 a {
-	color: var(--brand-5);
+	color: var(--brand-1);
 	text-decoration: underline;
 	text-underline-offset: 2px;
 	transition: color var(--transition-slow);
@@ -31,7 +31,7 @@ a {
 	transition: color var(--transition-fast);
 
 	&:hover {
-		color: var(--brand-5);
+		color: var(--brand-2);
 	}
 }
 
@@ -67,7 +67,8 @@ a {
 	border: 2px solid transparent;
 
 	&:hover {
-		background: var(--brand-5);
+		background: var(--brand-2);
+		color: var(--brand-5);
 	}
 
 	&:focus-visible {
@@ -96,7 +97,7 @@ a {
 	color: var(--brand-1);
 
 	&:hover {
-		background: var(--brand-8);
+		background: var(--brand-3);
 	}
 
 	&:focus-visible {

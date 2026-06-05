@@ -69,14 +69,14 @@ All visual decisions live in CSS custom properties. To theme a project, override
 --color-bg
 --color-surface
 --color-text
---brand-1 through --brand-8
+--brand-1 through --brand-5
 --font-body
 --font-heading
 ```
 
 **Full token list:**
 
-- Colors: `--color-bg`, `--color-surface`, `--color-text`, `--color-muted`, `--brand-1` through `--brand-8`, `--accent-1`, `--success`, `--warning`, `--danger`
+- Colors: `--color-bg`, `--color-surface`, `--color-text`, `--color-muted`, `--brand-1` through `--brand-5`, `--accent-1`, `--success`, `--warning`, `--danger`
 - Typography: `--font-body`, `--font-heading`, `--font-size-xs` through `--font-size-4xl`
 - Spacing: `--space-1` through `--space-32` (4pt base scale)
 - Layout: `--max-width`

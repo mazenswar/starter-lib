@@ -12,14 +12,21 @@ import "./nav.scss";
    ========================= */
 
 const logo = {
-	src: "/logo.webp",
+	src: "/logo/logoipsum-225.png",
 	alt: "Binswar",
 	width: 140,
 	height: 40,
 };
 
 const links = [
-	{ label: "Services", href: "/services" },
+	{
+		label: "Services",
+		items: [
+			{ label: "Individual Therapy", href: "/services/individual" },
+			{ label: "Couples Therapy", href: "/services/couples" },
+			{ label: "Group Therapy", href: "/services/groups" },
+		],
+	},
 	{ label: "About", href: "/about" },
 	{ label: "Work", href: "/work" },
 	{ label: "Contact", href: "/contact" },

@@ -8,37 +8,37 @@ import "./twocolumn.scss";
    Edit this section per project
    ========================= */
 
-const twoColumn = {
-	heading: "Our Approach",
-	paragraphs: [
-		"First paragraph of content. Describe your approach, philosophy, or whatever this section is about.",
-		"Second paragraph with more detail. Keep it concise and human.",
-	],
-	list: [
-		"First key point about your approach or offering",
-		"Second key point that reinforces your value",
-		"Third key point that builds trust",
-	],
-	cta: {
-		text: "Learn more",
-		href: "/about",
-		variant: "secondary",
-	},
-	image: {
-		src: "/approach.webp",
-		alt: "Descriptive alt text for the image",
-		width: 400,
-		height: 400,
-	},
-	imagePosition: "right", // "left" or "right"
-};
+// const twoColumn = {
+// 	heading: "Our Approach",
+// 	paragraphs: [
+// 		"First paragraph of content. Describe your approach, philosophy, or whatever this section is about.",
+// 		"Second paragraph with more detail. Keep it concise and human.",
+// 	],
+// 	list: [
+// 		"First key point about your approach or offering",
+// 		"Second key point that reinforces your value",
+// 		"Third key point that builds trust",
+// 	],
+// 	cta: {
+// 		text: "Learn more",
+// 		href: "/about",
+// 		variant: "secondary",
+// 	},
+// 	image: {
+// 		src: "/approach.webp",
+// 		alt: "Descriptive alt text for the image",
+// 		width: 400,
+// 		height: 400,
+// 	},
+// 	imagePosition: "right", // "left" or "right"
+// };
 
 /* =========================
    COMPONENT
    ========================= */
 
-export default function TwoColumn() {
-	const imageFirst = twoColumn.imagePosition === "left";
+export default function TwoColumn({ twoColumnConfig }) {
+	const imageFirst = twoColumnConfig.imagePosition === "left";
 
 	return (
 		<section className="block two-col-section">
@@ -48,26 +48,26 @@ export default function TwoColumn() {
 				>
 					{/* Copy */}
 					<div className="two-col-section__copy">
-						<h2>{twoColumn.heading}</h2>
+						<h2>{twoColumnConfig.heading}</h2>
 
-						{twoColumn.paragraphs?.map((para, i) => (
+						{twoColumnConfig.paragraphs?.map((para, i) => (
 							<p key={i}>{para}</p>
 						))}
 
-						{twoColumn.list?.length > 0 && (
+						{twoColumnConfig.list?.length > 0 && (
 							<ul className="two-col-section__list">
-								{twoColumn.list.map((item, i) => (
+								{twoColumnConfig.list.map((item, i) => (
 									<li key={i}>{item}</li>
 								))}
 							</ul>
 						)}
 
-						{twoColumn.cta && (
+						{twoColumnConfig.cta && (
 							<div className="two-col-section__actions">
 								<Button
-									text={twoColumn.cta.text}
-									href={twoColumn.cta.href}
-									variant={twoColumn.cta.variant ?? "secondary"}
+									text={twoColumnConfig.cta.text}
+									href={twoColumnConfig.cta.href}
+									variant={twoColumnConfig.cta.variant ?? "secondary"}
 								/>
 							</div>
 						)}
@@ -76,10 +76,10 @@ export default function TwoColumn() {
 					{/* Image */}
 					<figure className="two-col-section__media">
 						<Image
-							src={twoColumn.image.src}
-							alt={twoColumn.image.alt}
-							width={twoColumn.image.width}
-							height={twoColumn.image.height}
+							src={twoColumnConfig.image.src}
+							alt={twoColumnConfig.image.alt}
+							width={twoColumnConfig.image.width}
+							height={twoColumnConfig.image.height}
 							sizes="(max-width: 768px) 92vw, 420px"
 							style={{ width: "100%", height: "auto" }}
 						/>

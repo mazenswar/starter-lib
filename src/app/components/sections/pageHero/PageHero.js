@@ -7,27 +7,27 @@ import "./pagehero.scss";
    Edit this section per project
    ========================= */
 
-const pageHeroConfig = {
-	eyebrow: null, // optional label above heading e.g. "Our Services"
-	heading: "Page Title",
-	subheading:
-		"A brief description of what this page covers. Keep it clear and welcoming.",
-	image: null,
-	// Optional image example:
-	// image: {
-	// 	src: "/page-hero.webp",
-	// 	alt: "Descriptive alt text",
-	// 	width: 600,
-	// 	height: 400,
-	// },
-	align: "left", // "left" or "center"
-};
+// const defaultConfig = {
+// 	eyebrow: null, // optional label above heading e.g. "Our Services"
+// 	heading: "Page Title",
+// 	subheading:
+// 		"A brief description of what this page covers. Keep it clear and welcoming.",
+// 	image: null,
+// 	// Optional image example:
+// 	// image: {
+// 	// 	src: "/page-hero.webp",
+// 	// 	alt: "Descriptive alt text",
+// 	// 	width: 600,
+// 	// 	height: 400,
+// 	// },
+// 	align: "left", // "left" or "center"
+// };
 
 /* =========================
    COMPONENT
    ========================= */
 
-export default function PageHero() {
+export default function PageHero({ pageHeroConfig }) {
 	const centered = pageHeroConfig.align === "center";
 
 	return (
