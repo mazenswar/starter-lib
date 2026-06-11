@@ -1,83 +1,86 @@
-// components/sections/TwoColumn/TwoColumn.js
+"use client";
 import Image from "next/image";
 import Button from "../../ui/Button";
+import FadeUp from "../../ui/fadeUp/FadeUp";
 import "./twocolumn.scss";
 
-// const twoColumn = {
-// 	heading: "Our Approach",
-// 	paragraphs: [
-// 		"First paragraph of content.",
-// 		"Second paragraph with more detail.",
-// 	],
-// 	list: [
-// 		"First key point",
-// 		"Second key point",
-// 		"Third key point",
-// 	],
-// 	cta: {
-// 		text: "Learn more",
-// 		href: "/about",
-// 		variant: "secondary",
-// 	},
-// 	image: {
-// 		src: "/approach.webp",
-// 		alt: "Descriptive alt text for the image",
-// 		width: 400,
-// 		height: 400,
-// 	},
-// 	imagePosition: "right", // "left" or "right"
-// };
-
 export default function TwoColumn({ twoColumnConfig }) {
-	const imageFirst = twoColumnConfig.imagePosition === "left";
+	const {
+		id = "two-col",
+		eyebrow,
+		heading,
+		subheading,
+		paragraphs,
+		list,
+		cta,
+		image,
+		imagePosition = "right",
+		classNames = "",
+	} = twoColumnConfig;
+
+	const imageFirst = imagePosition === "left";
 
 	return (
 		<section
-			className="block two-col-section"
-			aria-labelledby="two-col-heading"
+			className={`block two-col-section ${classNames}`.trim()}
+			aria-labelledby={`${id}-heading`}
+			id={id}
 		>
 			<div className="block__content container">
 				<div
-					className={`two-col-section__layout ${imageFirst ? "image-first" : ""}`}
+					className={`two-col-section__layout ${imageFirst ? "image-first" : ""} ${!image ? "no-image" : ""}`}
 				>
-					{/* Copy */}
-					<div className="two-col-section__copy">
-						<h2 id="two-col-heading">{twoColumnConfig.heading}</h2>
-
-						{twoColumnConfig.paragraphs?.map((para, i) => (
+					<FadeUp as="div" className="two-col-section__copy" delay={0}>
+						{eyebrow && (
+							<p className="label two-col-section__eyebrow">{eyebrow}</p>
+						)}
+						<h2 id={`${id}-heading`}>{heading}</h2>
+						{subheading && <p className="two-col-section__sub">{subheading}</p>}
+						{paragraphs?.map((para, i) => (
 							<p key={i}>{para}</p>
 						))}
-
-						{twoColumnConfig.list?.length > 0 && (
-							<ul className="two-col-section__list">
-								{twoColumnConfig.list.map((item, i) => (
-									<li key={i}>{item}</li>
-								))}
-							</ul>
-						)}
-
-						{twoColumnConfig.cta && (
+						{cta && (
 							<div className="two-col-section__actions">
 								<Button
-									text={twoColumnConfig.cta.text}
-									href={twoColumnConfig.cta.href}
-									variant={twoColumnConfig.cta.variant ?? "secondary"}
+									text={cta.text}
+									href={cta.href}
+									variant={cta.variant ?? "secondary"}
+									external={cta.external ?? false}
 								/>
 							</div>
 						)}
-					</div>
+					</FadeUp>
 
-					{/* Image */}
-					<figure className="two-col-section__media">
-						<Image
-							src={twoColumnConfig.image.src}
-							alt={twoColumnConfig.image.alt}
-							width={twoColumnConfig.image.width}
-							height={twoColumnConfig.image.height}
-							sizes="(max-width: 768px) 92vw, 420px"
-							style={{ width: "100%", height: "auto" }}
-						/>
-					</figure>
+					{list?.length > 0 && !image && (
+						<FadeUp as="ul" className="two-col-section__list" delay={150}>
+							{list.map((item, i) => (
+								<li key={i}>{item}</li>
+							))}
+						</FadeUp>
+					)}
+
+					{list?.length > 0 && image && (
+						<FadeUp as="div" className="two-col-section__copy" delay={150}>
+							<ul className="two-col-section__list">
+								{list.map((item, i) => (
+									<li key={i}>{item}</li>
+								))}
+							</ul>
+						</FadeUp>
+					)}
+
+					{image && (
+						<FadeUp as="figure" className="two-col-section__media" delay={150}>
+							<Image
+								src={image.src}
+								alt={image.alt}
+								width={image.width}
+								height={image.height}
+								sizes="(max-width: 768px) 92vw, 420px"
+								style={{ width: "100%", height: "auto" }}
+							/>
+						</FadeUp>
+					)}
 				</div>
 			</div>
 		</section>

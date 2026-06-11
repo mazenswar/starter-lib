@@ -91,7 +91,6 @@
 .steps__title {
 	margin: 0;
 	font-size: var(--font-size-lg);
-	color: var(--brand-1);
 	font-weight: 600;
 }
 
@@ -99,4 +98,8 @@
 	margin: 0;
 	line-height: 1.6;
 	color: var(--color-text);
+}
+
+.steps__cta {
+	margin-top: var(--space-10);
 }

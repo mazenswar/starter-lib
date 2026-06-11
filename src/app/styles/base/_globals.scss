@@ -166,3 +166,9 @@ button:disabled,
 		}
 	}
 }
+
+// Chip Nav Scoll
+
+[id] {
+	scroll-margin-top: calc(64px + 48px + var(--space-6));
+}

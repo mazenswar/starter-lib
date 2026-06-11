@@ -1,60 +1,95 @@
-// components/ui/ChipNav/ChipNav.js
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./chipnav.scss";
 
-/* =========================
-   CHIP NAV CONFIGURATION
-   Edit this section per project
-   ========================= */
+function getIsMobile() {
+	if (typeof window === "undefined") return false;
+	return window.matchMedia("(max-width: 767px)").matches;
+}
 
-const chipNavConfig = {
-	label: "Jump to section",
-	chips: [
-		{ id: "section-one", label: "Section One" },
-		{ id: "section-two", label: "Section Two" },
-		{ id: "section-three", label: "Section Three" },
-	],
-};
+export default function ChipNav({ chipNavConfig }) {
+	const { label, chips } = chipNavConfig;
+	const [open, setOpen] = useState(false);
+	const [isMobile, setIsMobile] = useState(getIsMobile);
 
-/* =========================
-   COMPONENT
-   ========================= */
+	useEffect(() => {
+		const mq = window.matchMedia("(max-width: 767px)");
+		const handler = (e) => setIsMobile(e.matches);
+		mq.addEventListener("change", handler);
+		return () => mq.removeEventListener("change", handler);
+	}, []);
 
-export default function ChipNav() {
 	useEffect(() => {
 		const nav = document.querySelector(".chip-nav");
 		if (!nav) return;
 
 		const getOffset = () => {
-			const header = document.querySelector(".nav");
-			return header ? header.getBoundingClientRect().height + 16 : 80;
+			const chipNav = document.querySelector(".chip-nav");
+			return chipNav ? chipNav.getBoundingClientRect().bottom : 80;
+		};
+
+		const getDocumentTop = (el) => {
+			let top = 0;
+			let current = el;
+			while (current) {
+				top += current.offsetTop;
+				current = current.offsetParent;
+			}
+			return top;
 		};
 
 		const onClick = (e) => {
 			const a = e.target.closest("a[href^='#']");
 			if (!a) return;
-
 			const id = a.getAttribute("href").slice(1);
 			const el = document.getElementById(id);
 			if (!el) return;
-
 			e.preventDefault();
-			const top =
-				window.pageYOffset + el.getBoundingClientRect().top - getOffset();
-
-			window.scrollTo({ top, behavior: "smooth" });
+			if (isMobile) setOpen(false);
+			el.scrollIntoView({ behavior: "smooth" });
 		};
 
 		nav.addEventListener("click", onClick);
 		return () => nav.removeEventListener("click", onClick);
-	}, []);
+	}, [isMobile]);
 
 	return (
-		<nav className="chip-nav" aria-label={chipNavConfig.label}>
+		<nav className="chip-nav" aria-label={label}>
 			<div className="container">
-				<ul className="chip-nav__list" role="list">
-					{chipNavConfig.chips.map((chip) => (
+				<button
+					className="chip-nav__toggle"
+					aria-expanded={open}
+					aria-controls="chip-nav-list"
+					onClick={() => setOpen((prev) => !prev)}
+				>
+					<span>{label}</span>
+					<svg
+						className={`chip-nav__chevron ${open ? "chip-nav__chevron--open" : ""}`}
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="2"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						aria-hidden="true"
+						focusable="false"
+					>
+						<path d="M6 9l6 6 6-6" />
+					</svg>
+				</button>
+
+				<div className="chip-nav__desktop-header">
+					<span className="chip-nav__label">{label}</span>
+				</div>
+
+				<ul
+					id="chip-nav-list"
+					className={`chip-nav__list ${open ? "chip-nav__list--open" : ""}`}
+					role="list"
+				>
+					{chips.map((chip) => (
 						<li key={chip.id}>
 							<a href={`#${chip.id}`} className="chip-nav__chip">
 								{chip.label}

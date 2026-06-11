@@ -1,5 +1,6 @@
-// components/sections/CTABanner/CTABanner.js
+"use client";
 import Button from "../../ui/Button";
+import FadeUp from "../../ui/fadeUp/FadeUp";
 import "./ctabanner.scss";
 
 /* =========================
@@ -7,59 +8,63 @@ import "./ctabanner.scss";
    Edit this section per project
    ========================= */
 
-const ctaBannerConfig = {
-	heading: "Ready to get started?",
-	subheading:
-		"Let us build something great together. Reach out today and we will get back to you within one business day.",
-	variant: "brand", // "brand" | "dark" | "light"
-	cta: {
-		text: "Get in touch",
-		href: "/contact",
-		variant: "secondary",
-	},
-	secondaryCta: null,
-	// Optional second button example:
-	// secondaryCta: {
-	// 	text: "Learn more",
-	// 	href: "/services",
-	// 	variant: "ghost",
-	// },
-};
+// const ctaBannerConfig = {
+// 	heading: "Ready to get started?",
+// 	subheading:
+// 		"Let us build something great together. Reach out today and we will get back to you within one business day.",
+// 	variant: "brand", // "brand" | "dark" | "light"
+// 	cta: {
+// 		text: "Get in touch",
+// 		href: "/contact",
+// 		variant: "secondary",
+// 	},
+// 	secondaryCta: null,
+// 	// Optional second button example:
+// 	// secondaryCta: {
+// 	// 	text: "Learn more",
+// 	// 	href: "/services",
+// 	// 	variant: "ghost",
+// 	// },
+// };
+// components/sections/CTABanner/CTABanner.js
 
-/* =========================
-   COMPONENT
-   ========================= */
+export default function CTABanner({ ctaBannerConfig }) {
+	const {
+		heading,
+		subheading,
+		variant = "brand",
+		cta,
+		secondaryCta,
+		classNames = "",
+	} = ctaBannerConfig;
 
-export default function CTABanner() {
 	return (
 		<section
-			className={`block cta-banner cta-banner--${ctaBannerConfig.variant}`}
+			className={`block cta-banner cta-banner--${variant} ${classNames}`}
 			aria-labelledby="cta-banner-heading"
 		>
 			<div className="block__content container">
 				<div className="cta-banner__inner">
-					<div className="cta-banner__copy">
-						<h2 id="cta-banner-heading">{ctaBannerConfig.heading}</h2>
-						{ctaBannerConfig.subheading && (
-							<p className="cta-banner__sub">{ctaBannerConfig.subheading}</p>
-						)}
-					</div>
-					<div className="cta-banner__actions">
+					<FadeUp as="div" className="cta-banner__copy" delay={0}>
+						<h2 id="cta-banner-heading">{heading}</h2>
+						{subheading && <p className="cta-banner__sub">{subheading}</p>}
+					</FadeUp>
+					<FadeUp as="div" className="cta-banner__actions" delay={150}>
 						<Button
-							text={ctaBannerConfig.cta.text}
-							href={ctaBannerConfig.cta.href}
-							variant={ctaBannerConfig.cta.variant ?? "primary"}
-							external={ctaBannerConfig.cta.external ?? false}
-							trackEvent={ctaBannerConfig.cta.trackEvent}
+							text={cta.text}
+							href={cta.href}
+							variant={cta.variant ?? "primary"}
+							external={cta.external ?? false}
+							trackEvent={cta.trackEvent}
 						/>
-						{ctaBannerConfig.secondaryCta && (
+						{secondaryCta && (
 							<Button
-								text={ctaBannerConfig.secondaryCta.text}
-								href={ctaBannerConfig.secondaryCta.href}
-								variant={ctaBannerConfig.secondaryCta.variant ?? "ghost"}
+								text={secondaryCta.text}
+								href={secondaryCta.href}
+								variant={secondaryCta.variant ?? "ghost"}
 							/>
 						)}
-					</div>
+					</FadeUp>
 				</div>
 			</div>
 		</section>

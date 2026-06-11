@@ -11,8 +11,10 @@
 .page-hero__layout {
 	@include flex-column;
 	gap: var(--space-8);
-
-	&.has-image {
+	justify-content: center;
+	align-items: center;
+	&.has-image,
+	&.has-illustration {
 		@include respond(md) {
 			display: grid;
 			grid-template-columns: 1.2fr 1fr;
@@ -65,5 +67,18 @@
 		width: 100%;
 		height: auto;
 		border-radius: var(--radius-lg);
+	}
+}
+// SVG
+.page-hero__media svg {
+	color: var(--brand-1);
+	width: 100%;
+	height: auto;
+	opacity: 0.9;
+	max-width: 200px;
+	align-self: center;
+	@include respond(md) {
+		max-width: 300px;
+		justify-self: flex-end;
 	}
 }

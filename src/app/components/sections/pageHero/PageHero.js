@@ -37,7 +37,7 @@ export default function PageHero({ pageHeroConfig }) {
 		>
 			<div className="block__content container">
 				<div
-					className={`page-hero__layout ${pageHeroConfig.image ? "has-image" : ""}`}
+					className={`page-hero__layout ${pageHeroConfig.image ? "has-image" : ""} ${pageHeroConfig.illustration ? "has-illustration" : ""}`}
 				>
 					{/* Copy */}
 					<div className="page-hero__copy">
@@ -64,6 +64,13 @@ export default function PageHero({ pageHeroConfig }) {
 								sizes="(max-width: 768px) 90vw, 420px"
 								style={{ width: "100%", height: "auto" }}
 							/>
+						</figure>
+					)}
+					{/* optional illustration */}
+
+					{pageHeroConfig.illustration && !pageHeroConfig.image && (
+						<figure className="page-hero__media" aria-hidden="true">
+							{pageHeroConfig.illustration}
 						</figure>
 					)}
 				</div>

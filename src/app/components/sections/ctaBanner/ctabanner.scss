@@ -4,11 +4,11 @@
 .cta-banner {
 	/* Variant: brand (default) */
 	&--brand {
-		background: var(--brand-1);
+		// background: var(--brand-3);
 
 		h2,
 		.cta-banner__sub {
-			color: var(--color-surface);
+			color: var(--color-text);
 		}
 
 		.cta-banner__sub {
@@ -16,13 +16,13 @@
 		}
 
 		.btnSecondary {
-			border-color: var(--color-surface);
-			color: var(--color-surface);
+			// border-color: var(--color-surface);
+			// color: var(--color-surface);
 
 			&:hover,
 			&:focus-visible {
-				background: var(--color-surface);
-				color: var(--brand-1);
+				background: var(--brand-1);
+				color: var(--color-text);
 			}
 		}
 

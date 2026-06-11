@@ -7,19 +7,19 @@ import "./footer.scss";
    ========================= */
 
 const contact = {
-	phone: "(555) 123-4567",
-	email: "hello@yourclinic.com",
-	address: "123 Main St, Suite 4, New York, NY 10001",
-	virtual: "Serving clients across New Jersey & New York",
+	// phone: "(555) 123-4567",
+	email: "mazen@binswar.com",
+	// address: "123 Main St, Suite 4, New York, NY 10001",
+	// virtual: "Serving clients across New Jersey & New York",
 };
 
 const badges = [
-	{
-		label: "Psychology Today",
-		href: "https://psychologytoday.com",
-		src: "/badges/psychology-today.png",
-	},
-	{ label: "Zencare", href: "https://zencare.co", src: "/badges/zencare.png" },
+	// {
+	// 	label: "Psychology Today",
+	// 	href: "https://psychologytoday.com",
+	// 	src: "/badges/psychology-today.png",
+	// },
+	// { label: "Zencare", href: "https://zencare.co", src: "/badges/zencare.png" },
 ];
 
 const social = [
@@ -50,15 +50,15 @@ const navLinks = [
 const legalLinks = [
 	{ label: "Privacy Policy", href: "/privacy-policy" },
 	{ label: "Terms & Conditions", href: "/terms" },
-	{ label: "Good Faith Estimate", href: "/good-faith-estimate" },
+	// { label: "Good Faith Estimate", href: "/good-faith-estimate" },
 ];
 
 const seoLine = null;
 
 const copyright = {
-	name: "Your Practice Name",
-	creditText: "Site by Binswar",
-	creditHref: "https://binswar.com",
+	name: "Binswar LLC",
+	// creditText: "Site by Binswar",
+	// creditHref: "https://binswar.com",
 };
 
 /* =========================

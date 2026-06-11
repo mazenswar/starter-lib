@@ -10,7 +10,7 @@ import "./nav.scss";
    ========================= */
 
 const logo = {
-	src: "/logo/logoipsum-225.png",
+	src: "/logo/binswar-white-b.png",
 	alt: "Binswar",
 	width: 140,
 	height: 40,
@@ -20,20 +20,21 @@ const links = [
 	{
 		label: "Services",
 		items: [
-			{ label: "Individual Therapy", href: "/services/individual" },
-			{ label: "Couples Therapy", href: "/services/couples" },
-			{ label: "Group Therapy", href: "/services/groups" },
+			{ label: "Audit", href: "/audit" },
+			{ label: "New Website", href: "/new-website" },
 		],
 	},
 	{ label: "About", href: "/about" },
+	{ label: "Process", href: "/process" },
 	{ label: "Work", href: "/work" },
-	{ label: "Contact", href: "/contact" },
+	// { label: "Contact", href: "/contact" },
 ];
 
 const cta = {
-	text: "Get a quote",
-	href: "/contact",
+	text: "Book A Consult",
+	href: "https://calendly.com/mazen-binswar/30min",
 	variant: "primary",
+	external: true,
 };
 
 const homeHref = "/";

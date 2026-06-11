@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Button from "../../ui/Button";
 import "./hero.scss";
+import FadeUp from "../../ui/fadeUp/FadeUp";
 
 /* ── Hook — reads data-style from html element ──────────────── */
 // This watches for changes to data-style and returns the current value.
@@ -19,7 +20,7 @@ function useStyle() {
 				document.documentElement.getAttribute("data-style") || "split-contained"
 			);
 		}
-		return "split-contained";
+		return "hero-background";
 	});
 
 	useEffect(() => {
@@ -55,7 +56,7 @@ export default function Hero({ heroConfig }) {
 	if (variant === "background-hero")
 		return <HeroBackground config={heroConfig} />;
 
-	return <HeroSplitContained config={heroConfig} />;
+	return <HeroBackground config={heroConfig} />;
 }
 
 /* ── Variant A — Split Contained (circular portrait) ────────── */
@@ -254,16 +255,34 @@ function HeroCopy({ config, centered = false }) {
 	return (
 		<>
 			{config.eyebrow && (
-				<p className="hero__eyebrow label">{config.eyebrow}</p>
+				<FadeUp as="p" delay={0} className="hero__eyebrow label">
+					{config.eyebrow}
+				</FadeUp>
 			)}
-			<h1 id="hero-heading" className="hero__heading">
+
+			<FadeUp
+				as="h1"
+				delay={config.eyebrow ? 100 : 0}
+				className="hero__heading"
+				id="hero-heading"
+			>
 				{config.heading}
-			</h1>
+			</FadeUp>
+
 			{config.subheading && (
-				<p className="hero__subheading lead">{config.subheading}</p>
+				<FadeUp
+					as="p"
+					delay={config.eyebrow ? 200 : 100}
+					className="hero__subheading lead"
+				>
+					{config.subheading}
+				</FadeUp>
 			)}
+
 			{config.cta && (
-				<div
+				<FadeUp
+					as="div"
+					delay={config.eyebrow ? 300 : 200}
 					className={`hero__actions ${centered ? "hero__actions--centered" : ""}`}
 				>
 					<Button
@@ -280,7 +299,7 @@ function HeroCopy({ config, centered = false }) {
 							external={config.ctaSecondary.external ?? false}
 						/>
 					)}
-				</div>
+				</FadeUp>
 			)}
 		</>
 	);
